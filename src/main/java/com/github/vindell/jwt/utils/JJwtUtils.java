@@ -154,15 +154,8 @@ public class JJwtUtils {
 	}
 
 	public static Claims parseJWT(String base64Secret, String token) {
-		Claims claims;
-		try {
-			// 解析jwt串 :其中parseClaimsJws验证jwt字符串失败可能会抛出异常，需要捕获异常
-			claims = Jwts.parser().setSigningKey(base64Secret).parseClaimsJws(token).getBody();
-		} catch (Exception e) {
-			e.printStackTrace();
-			// jwt 解析错误
-			claims = null;
-		}
+		// 解析jwt串 :其中parseClaimsJws验证jwt字符串失败可能会抛出异常，需要捕获异常
+		Claims claims = Jwts.parser().setSigningKey(base64Secret).parseClaimsJws(token).getBody();
 		return claims;
 	}
 
