@@ -15,12 +15,12 @@
  */
 package com.github.vindell.jwt.exception;
 
-public class AuthenticationException extends RuntimeException {
+public class JwtException extends RuntimeException {
 
 	/**
      * Creates a new AuthenticationException.
      */
-    public AuthenticationException() {
+    public JwtException() {
         super();
     }
 
@@ -29,7 +29,7 @@ public class AuthenticationException extends RuntimeException {
      *
      * @param message the reason for the exception
      */
-    public AuthenticationException(String message) {
+    public JwtException(String message) {
         super(message);
     }
 
@@ -38,7 +38,7 @@ public class AuthenticationException extends RuntimeException {
      *
      * @param cause the underlying Throwable that caused this exception to be thrown.
      */
-    public AuthenticationException(Throwable cause) {
+    public JwtException(Throwable cause) {
         super(cause);
     }
 
@@ -48,7 +48,7 @@ public class AuthenticationException extends RuntimeException {
      * @param message the reason for the exception
      * @param cause   the underlying Throwable that caused this exception to be thrown.
      */
-    public AuthenticationException(String message, Throwable cause) {
+    public JwtException(String message, Throwable cause) {
         super(message, cause);
     }
 	

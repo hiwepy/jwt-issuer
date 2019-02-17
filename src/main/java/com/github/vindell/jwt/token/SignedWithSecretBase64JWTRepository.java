@@ -19,17 +19,17 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
-import com.github.vindell.jwt.exception.AuthenticationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.vindell.jwt.JwtPayload;
 import com.github.vindell.jwt.exception.ExpiredJwtException;
 import com.github.vindell.jwt.exception.IncorrectJwtException;
 import com.github.vindell.jwt.exception.InvalidJwtToken;
+import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.exception.NotObtainedJwtException;
 import com.github.vindell.jwt.time.JwtTimeProvider;
 import com.github.vindell.jwt.utils.JJwtUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.Maps;
 
 import io.jsonwebtoken.Claims;
@@ -39,7 +39,6 @@ import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.InvalidClaimException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -81,11 +80,11 @@ public class SignedWithSecretBase64JWTRepository implements JwtRepository<String
      *  <p> PS512: RSASSA-PSS using SHA-512 and MGF1 with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(String base64Secret, String jwtId, String subject, String issuer, String audience,
-			String roles, String permissions, String algorithm, long period)  throws AuthenticationException {
+			String roles, String permissions, String algorithm, long period)  throws JwtException {
 		
 		Map<String, Object> claims = Maps.newHashMap();
 		claims.put("roles", roles);
@@ -118,11 +117,11 @@ public class SignedWithSecretBase64JWTRepository implements JwtRepository<String
      *  <p> PS512: RSASSA-PSS using SHA-512 and MGF1 with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(String base64Secret, String jwtId, String subject, String issuer, String audience, Map<String, Object> claims,
-			String algorithm, long period) throws AuthenticationException {
+			String algorithm, long period) throws JwtException {
 		
 		JwtBuilder builder = JJwtUtils
 				.jwtBuilder(jwtId, subject, issuer, audience, claims, period)
@@ -155,10 +154,10 @@ public class SignedWithSecretBase64JWTRepository implements JwtRepository<String
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return If Validity
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public boolean verify(String base64Secret, String token, boolean checkExpiry) throws AuthenticationException {
+	public boolean verify(String base64Secret, String token, boolean checkExpiry) throws JwtException {
 			
 		try {
 			
@@ -220,10 +219,10 @@ public class SignedWithSecretBase64JWTRepository implements JwtRepository<String
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return JwtPlayload {@link JwtPayload}
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public JwtPayload getPlayload(String base64Secret, String token, boolean checkExpiry)  throws AuthenticationException {
+	public JwtPayload getPlayload(String base64Secret, String token, boolean checkExpiry)  throws JwtException {
 		try {
 			
 			// Retrieve JWT claims

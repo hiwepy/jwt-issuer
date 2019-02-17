@@ -21,7 +21,7 @@ import java.util.Map;
 
 import javax.crypto.SecretKey;
 
-import com.github.vindell.jwt.exception.AuthenticationException;
+import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.JwtPayload;
 import com.github.vindell.jwt.exception.IncorrectJwtException;
 import com.github.vindell.jwt.exception.InvalidJwtToken;
@@ -80,11 +80,11 @@ public class SignedWithRsaAndEncryptedWithAESJWTRepository implements JwtKeyPair
 	 * <p> PS512 - RSA PSS signature with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(RSAKey signingKey, SecretKey secretKey, String jwtId, String subject, String issuer, String audience,
-			String roles, String permissions, String algorithm, long period)  throws AuthenticationException {
+			String roles, String permissions, String algorithm, long period)  throws JwtException {
 		 
 		Map<String, Object> claims = Maps.newHashMap();
 		claims.put("roles", roles);
@@ -113,11 +113,11 @@ public class SignedWithRsaAndEncryptedWithAESJWTRepository implements JwtKeyPair
 	 * <p> PS512 - RSA PSS signature with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(RSAKey signingKey, SecretKey secretKey, String jwtId, String subject, String issuer, String audience,
-			Map<String, Object> claims, String algorithm, long period) throws AuthenticationException {
+			Map<String, Object> claims, String algorithm, long period) throws JwtException {
 		try {
 			
 			//-------------------- Step 1：Get ClaimsSet --------------------
@@ -187,10 +187,10 @@ public class SignedWithRsaAndEncryptedWithAESJWTRepository implements JwtKeyPair
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return If Validity
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public boolean verify(RSAKey signingKey, SecretKey secretKey, String token, boolean checkExpiry) throws AuthenticationException {
+	public boolean verify(RSAKey signingKey, SecretKey secretKey, String token, boolean checkExpiry) throws JwtException {
 
 		try {
 			
@@ -236,10 +236,10 @@ public class SignedWithRsaAndEncryptedWithAESJWTRepository implements JwtKeyPair
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return JwtPlayload {@link JwtPayload}
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public JwtPayload getPlayload(RSAKey signingKey, SecretKey secretKey, String token, boolean checkExpiry)  throws AuthenticationException {
+	public JwtPayload getPlayload(RSAKey signingKey, SecretKey secretKey, String token, boolean checkExpiry)  throws JwtException {
 		try {
 			
 			//-------------------- Step 1：AES Decrypt ----------------------
@@ -260,7 +260,7 @@ public class SignedWithRsaAndEncryptedWithAESJWTRepository implements JwtKeyPair
 			
 			// Retrieve / verify the JWT claims according to the app requirements
 			if(!signedJWT.verify(verifier)) {
-				throw new AuthenticationException(String.format("Invalid JSON Web Token (JWT) : %s", token));
+				throw new JwtException(String.format("Invalid JSON Web Token (JWT) : %s", token));
 			}
 			
 			//-------------------- Step 3：Gets The Claims ---------------

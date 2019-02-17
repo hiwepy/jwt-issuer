@@ -21,7 +21,7 @@ import java.util.Map;
 
 import javax.crypto.SecretKey;
 
-import com.github.vindell.jwt.exception.AuthenticationException;
+import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.JwtPayload;
 import com.github.vindell.jwt.exception.IncorrectJwtException;
 import com.github.vindell.jwt.time.JwtTimeProvider;
@@ -76,11 +76,11 @@ public class SignedWithEcAndEncryptedWithAESJWTRepository implements JwtKeyPairR
 	 * <p> ES512 - EC P-521 DSA with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(ECKey signingKey, SecretKey secretKey, String jwtId, String subject, String issuer, String audience,
-			String roles, String permissions, String algorithm, long period)  throws AuthenticationException {
+			String roles, String permissions, String algorithm, long period)  throws JwtException {
 
 		Map<String, Object> claims = Maps.newHashMap();
 		claims.put("roles", roles);
@@ -106,11 +106,11 @@ public class SignedWithEcAndEncryptedWithAESJWTRepository implements JwtKeyPairR
 	 * <p> ES512 - EC P-521 DSA with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(ECKey signingKey, SecretKey secretKey, String jwtId, String subject, String issuer, String audience,
-			Map<String, Object> claims, String algorithm, long period) throws AuthenticationException {
+			Map<String, Object> claims, String algorithm, long period) throws JwtException {
 
 		try {
 			
@@ -181,10 +181,10 @@ public class SignedWithEcAndEncryptedWithAESJWTRepository implements JwtKeyPairR
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return If Validity
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public boolean verify(ECKey signingKey, SecretKey secretKey, String token, boolean checkExpiry) throws AuthenticationException {
+	public boolean verify(ECKey signingKey, SecretKey secretKey, String token, boolean checkExpiry) throws JwtException {
 
 		try {
 			
@@ -207,13 +207,13 @@ public class SignedWithEcAndEncryptedWithAESJWTRepository implements JwtKeyPairR
 			// Retrieve / verify the JWT claims according to the app requirements
 			return signedJWT.verify(verifier);
 		} catch (IllegalStateException e) {
-			throw new AuthenticationException(e);
+			throw new JwtException(e);
 		} catch (NumberFormatException e) {
-			throw new AuthenticationException(e);
+			throw new JwtException(e);
 		} catch (ParseException e) {
-			throw new AuthenticationException(e);
+			throw new JwtException(e);
 		} catch (JOSEException e) {
-			throw new AuthenticationException(e);
+			throw new JwtException(e);
 		}
 		
 	}
@@ -230,10 +230,10 @@ public class SignedWithEcAndEncryptedWithAESJWTRepository implements JwtKeyPairR
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return JwtPlayload {@link JwtPayload}
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public JwtPayload getPlayload(ECKey signingKey, SecretKey secretKey, String token, boolean checkExpiry)  throws AuthenticationException {
+	public JwtPayload getPlayload(ECKey signingKey, SecretKey secretKey, String token, boolean checkExpiry)  throws JwtException {
 		try {
 			
 			//-------------------- Step 1：AES Decrypt ----------------------
@@ -254,7 +254,7 @@ public class SignedWithEcAndEncryptedWithAESJWTRepository implements JwtKeyPairR
 			
 			// Retrieve / verify the JWT claims according to the app requirements
 			if(!signedJWT.verify(verifier)) {
-				throw new AuthenticationException(String.format("Invalid JSON Web Token (JWT) : %s", token));
+				throw new JwtException(String.format("Invalid JSON Web Token (JWT) : %s", token));
 			}
 			
 			//-------------------- Step 3：Gets The Claims ---------------
@@ -262,13 +262,13 @@ public class SignedWithEcAndEncryptedWithAESJWTRepository implements JwtKeyPairR
 			// Retrieve JWT claims
 			return NimbusdsUtils.payload(signedJWT.getJWTClaimsSet());
 		} catch (IllegalStateException e) {
-			throw new AuthenticationException(e);
+			throw new JwtException(e);
 		} catch (NumberFormatException e) {
-			throw new AuthenticationException(e);
+			throw new JwtException(e);
 		} catch (ParseException e) {
-			throw new AuthenticationException(e);
+			throw new JwtException(e);
 		} catch (JOSEException e) {
-			throw new AuthenticationException(e);
+			throw new JwtException(e);
 		}
 		
 	}

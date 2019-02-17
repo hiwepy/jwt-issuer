@@ -20,7 +20,7 @@ package com.github.vindell.jwt.exception;
  * @author 		： <a href="https://github.com/vindell">vindell</a>
  */
 @SuppressWarnings("serial")
-public class ExpiredJwtException extends AuthenticationException {
+public class ExpiredJwtException extends JwtException {
 	
 	public ExpiredJwtException() {
 		super();

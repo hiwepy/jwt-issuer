@@ -1,7 +1,7 @@
 package com.github.vindell.jwt.exception;
 
 @SuppressWarnings("serial")
-public class IncorrectJwtException extends AuthenticationException {
+public class IncorrectJwtException extends JwtException {
 	
 	public IncorrectJwtException() {
 		super();

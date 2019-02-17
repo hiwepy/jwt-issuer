@@ -20,7 +20,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
-import com.github.vindell.jwt.exception.AuthenticationException;
+import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.JwtPayload;
 import com.github.vindell.jwt.exception.ExpiredJwtException;
 import com.github.vindell.jwt.exception.IncorrectJwtException;
@@ -40,7 +40,6 @@ import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.InvalidClaimException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -82,11 +81,11 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
      *  <p> PS512: RSASSA-PSS using SHA-512 and MGF1 with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(Key secretKey, String jwtId, String subject, String issuer, String audience,
-			String roles, String permissions, String algorithm, long period)  throws AuthenticationException {
+			String roles, String permissions, String algorithm, long period)  throws JwtException {
 		
 		Map<String, Object> claims = Maps.newHashMap();
 		claims.put("roles", roles);
@@ -119,11 +118,11 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
      *  <p> PS512: RSASSA-PSS using SHA-512 and MGF1 with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(Key secretKey, String jwtId, String subject, String issuer, String audience,
-			Map<String, Object> claims,	String algorithm, long period) throws AuthenticationException {
+			Map<String, Object> claims,	String algorithm, long period) throws JwtException {
 		
 		JwtBuilder builder = JJwtUtils
 				.jwtBuilder(jwtId, subject, issuer, audience, claims, period)
@@ -157,10 +156,10 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return If Validity
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public boolean verify(Key secretKey, String token, boolean checkExpiry) throws AuthenticationException {
+	public boolean verify(Key secretKey, String token, boolean checkExpiry) throws JwtException {
 			
 		try {
 			
@@ -219,10 +218,10 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return JwtPlayload {@link JwtPayload}
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public JwtPayload getPlayload(Key secretKey, String token, boolean checkExpiry)  throws AuthenticationException {
+	public JwtPayload getPlayload(Key secretKey, String token, boolean checkExpiry)  throws JwtException {
 		try {
 			
 			// Retrieve JWT claims

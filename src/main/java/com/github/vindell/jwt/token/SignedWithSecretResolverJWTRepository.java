@@ -26,10 +26,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.vindell.jwt.JwtPayload;
-import com.github.vindell.jwt.exception.AuthenticationException;
 import com.github.vindell.jwt.exception.ExpiredJwtException;
 import com.github.vindell.jwt.exception.IncorrectJwtException;
 import com.github.vindell.jwt.exception.InvalidJwtToken;
+import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.exception.NotObtainedJwtException;
 import com.github.vindell.jwt.time.JwtTimeProvider;
 import com.github.vindell.jwt.utils.JJwtUtils;
@@ -43,7 +43,6 @@ import io.jsonwebtoken.InvalidClaimException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -95,11 +94,11 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
      *  <p> PS512: RSASSA-PSS using SHA-512 and MGF1 with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(Key secretKey, String keyId, String jwtId, String subject, String issuer, String audience,
-			String roles, String permissions, String algorithm, long period)  throws AuthenticationException {
+			String roles, String permissions, String algorithm, long period)  throws JwtException {
 		Map<String, Object> claims = Maps.newHashMap();
 		claims.put("roles", roles);
 		claims.put("perms", permissions);
@@ -132,11 +131,11 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
      *  <p> PS512: RSASSA-PSS using SHA-512 and MGF1 with SHA-512 </p>
      * @param period 		: Jwt Expiration Cycle
 	 * @return JSON Web Token (JWT)
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
 	public String issueJwt(Key secretKey, String keyId, String jwtId, String subject, String issuer, String audience,
-			Map<String, Object> claims,	String algorithm, long period) throws AuthenticationException {
+			Map<String, Object> claims,	String algorithm, long period) throws JwtException {
 		
 		JwtBuilder builder = JJwtUtils
 				.jwtBuilder(jwtId, subject, issuer, audience, claims, period)
@@ -169,10 +168,10 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return If Validity
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public boolean verify(String token, boolean checkExpiry) throws AuthenticationException {
+	public boolean verify(String token, boolean checkExpiry) throws JwtException {
 			
 		try {
 			
@@ -233,10 +232,10 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return JwtPlayload {@link JwtPayload}
-	 * @throws AuthenticationException When Authentication Exception
+	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public JwtPayload getPlayload(String token, boolean checkExpiry)  throws AuthenticationException {
+	public JwtPayload getPlayload(String token, boolean checkExpiry)  throws JwtException {
 		try {
 			
 			// Retrieve JWT claims
