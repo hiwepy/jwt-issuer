@@ -1,16 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>com.github.vindell</groupId>
 	<artifactId>jwt-issuer</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<description>JWT Issuer Tools</description>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<url>https://github.com/vindell/${project.artifactId}</url>
-	<packaging>jar</packaging>
-
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>jwt-issuer-api</module>
+		<module>jwt-issuer-with-jjwt</module>
+		<module>jwt-issuer-with-nimbus</module>
+	</modules>
+	
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -373,45 +377,45 @@
 		<commons-lang3.version>3.5</commons-lang3.version>
 		<commons-io.version>2.6</commons-io.version>
 		<fastjson.version>1.2.56</fastjson.version>
-		<guava.version>27.0.1-jre</guava.version>
+		<guava.version>27.1-jre</guava.version>
 		<junit.version>4.12</junit.version>
 		<java.version>1.8</java.version>
-		<jjwt.version>0.9.1</jjwt.version>
-		<maven.version>3.0</maven.version>
-		<maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
-		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-		<maven-dependency-plugin.version>3.0.1</maven-dependency-plugin.version>
+		<jjwt.version>0.10.6</jjwt.version>
+		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+		<maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
+		<maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
 		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-		<maven-enforcer-plugin.version>3.0.0-M1</maven-enforcer-plugin.version>
+		<maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-		<maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
-		<maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+		<maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
+		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-		<maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
-		<maven-surefire-plugin.vertsion>2.21.0</maven-surefire-plugin.vertsion>
+		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+		<maven-surefire-plugin.vertsion>2.22.1</maven-surefire-plugin.vertsion>
 		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
 		<maven-nexus-staging-plugin.version>1.6.8</maven-nexus-staging-plugin.version>
-		<nimbus-jose-jwt.version>7.0</nimbus-jose-jwt.version>
+		<maven-nexus-yuicompressor-plugin.version>1.1.0</maven-nexus-yuicompressor-plugin.version>
+		<maven-war-plugin.version>3.2.2</maven-war-plugin.version>
+		<nimbus-jose-jwt.version>7.0.1</nimbus-jose-jwt.version>
 		<servlet-api.version>3.0.1</servlet-api.version>
-		<slf4j.version>1.7.21</slf4j.version>
+		<slf4j.version>1.7.26</slf4j.version>
 	</properties>
-
+	
 	<dependencyManagement>
 		<dependencies>
-
+			
+			<!-- https://mvnrepository.com/artifact/junit/junit -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
+				<scope>test</scope>
 			</dependency>
 
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>${servlet-api.version}</version>
-			</dependency>
-			
+			<!-- https://mvnrepository.com/artifact/org.slf4j -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
@@ -421,6 +425,13 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-simple</artifactId>
 				<version>${slf4j.version}</version>
+				<scope>test</scope>
+			</dependency>
+			 
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
 			</dependency>
 			
 			<dependency>
@@ -447,10 +458,28 @@
 			    <version>${nimbus-jose-jwt.version}</version>
 			</dependency>
 			
-			<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+			<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
 			<dependency>
 			    <groupId>io.jsonwebtoken</groupId>
-			    <artifactId>jjwt</artifactId>
+			    <artifactId>jjwt-api</artifactId>
+			    <version>${jjwt.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
+			<dependency>
+			    <groupId>io.jsonwebtoken</groupId>
+			    <artifactId>jjwt-impl</artifactId>
+			    <version>${jjwt.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
+			<dependency>
+			    <groupId>io.jsonwebtoken</groupId>
+			    <artifactId>jjwt-jackson</artifactId>
+			    <version>${jjwt.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-orgjson -->
+			<dependency>
+			    <groupId>io.jsonwebtoken</groupId>
+			    <artifactId>jjwt-orgjson</artifactId>
 			    <version>${jjwt.version}</version>
 			</dependency>
 			
@@ -463,14 +492,16 @@
 			
 		</dependencies>
 	</dependencyManagement>
-
+	
 	<dependencies>
-		<!-- Java Servlet API -->
+
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.slf4j -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -480,32 +511,7 @@
 			<artifactId>slf4j-simple</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-		    <groupId>com.alibaba</groupId>
-		    <artifactId>fastjson</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.nimbusds</groupId>
-		    <artifactId>nimbus-jose-jwt</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
 
 	</dependencies>
-
+	
 </project>

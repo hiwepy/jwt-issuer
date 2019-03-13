@@ -16,10 +16,9 @@
 package com.github.vindell.jwt;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 /**
  * TODO
@@ -94,7 +93,7 @@ public class JwtPayload {
 	}
 
 	public Map<String, Object> getClaims() {
-		return claims == null ? Maps.newHashMap() : claims;
+		return claims == null ? new HashMap<String, Object>() : claims;
 	}
 
 	public void setClaims(Map<String, Object> claims) {
