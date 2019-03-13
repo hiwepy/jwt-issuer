@@ -17,6 +17,7 @@ package com.github.vindell.jwt.token;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -30,7 +31,6 @@ import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.exception.NotObtainedJwtException;
 import com.github.vindell.jwt.time.JwtTimeProvider;
 import com.github.vindell.jwt.utils.JJwtUtils;
-import com.google.common.collect.Maps;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodec;
@@ -86,7 +86,7 @@ public class SignedWithSecretBase64JWTRepository implements JwtRepository<String
 	public String issueJwt(String base64Secret, String jwtId, String subject, String issuer, String audience,
 			String roles, String permissions, String algorithm, long period)  throws JwtException {
 		
-		Map<String, Object> claims = Maps.newHashMap();
+		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("roles", roles);
 		claims.put("perms", permissions);
 		

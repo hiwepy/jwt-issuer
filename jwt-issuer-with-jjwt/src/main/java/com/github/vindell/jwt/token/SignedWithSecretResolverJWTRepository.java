@@ -19,6 +19,7 @@ import java.security.Key;
 import java.text.ParseException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +34,6 @@ import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.exception.NotObtainedJwtException;
 import com.github.vindell.jwt.time.JwtTimeProvider;
 import com.github.vindell.jwt.utils.JJwtUtils;
-import com.google.common.collect.Maps;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodec;
@@ -99,7 +99,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	@Override
 	public String issueJwt(Key secretKey, String keyId, String jwtId, String subject, String issuer, String audience,
 			String roles, String permissions, String algorithm, long period)  throws JwtException {
-		Map<String, Object> claims = Maps.newHashMap();
+		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("roles", roles);
 		claims.put("perms", permissions);
 		

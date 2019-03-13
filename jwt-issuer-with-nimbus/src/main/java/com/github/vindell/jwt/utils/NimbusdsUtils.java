@@ -20,9 +20,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.vindell.jwt.JwtPayload;
-import com.google.common.collect.Lists;
 import com.nimbusds.jwt.JWTClaimsSet;
 
 /**
@@ -48,7 +49,7 @@ public class NimbusdsUtils {
 		builder.subject(subject);
 		// 接收对象
 		if (StringUtils.isNoneBlank(audience)) {
-			builder.audience(Lists.newArrayList(StringUtils.tokenizeToStringArray(audience)));
+			builder.audience(Stream.of(StringUtils.tokenizeToStringArray(audience)).collect(Collectors.toList()));
 		}
 		// 签发者
 		if (StringUtils.isNoneBlank(issuer)) {
@@ -94,7 +95,7 @@ public class NimbusdsUtils {
 		builder.subject(subject);
 		// 接收对象
 		if (StringUtils.isNoneBlank(audience)) {
-			builder.audience(Lists.newArrayList(StringUtils.tokenizeToStringArray(audience)));
+			builder.audience(Stream.of(StringUtils.tokenizeToStringArray(audience)).collect(Collectors.toList()));
 		}
 		// 签发者
 		if (StringUtils.isNoneBlank(issuer)) {

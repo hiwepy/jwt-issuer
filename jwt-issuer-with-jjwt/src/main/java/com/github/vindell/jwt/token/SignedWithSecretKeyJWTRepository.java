@@ -18,20 +18,20 @@ package com.github.vindell.jwt.token;
 import java.security.Key;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.github.vindell.jwt.exception.JwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.vindell.jwt.JwtPayload;
 import com.github.vindell.jwt.exception.ExpiredJwtException;
 import com.github.vindell.jwt.exception.IncorrectJwtException;
 import com.github.vindell.jwt.exception.InvalidJwtToken;
+import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.exception.NotObtainedJwtException;
 import com.github.vindell.jwt.time.JwtTimeProvider;
 import com.github.vindell.jwt.utils.JJwtUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Maps;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodec;
@@ -87,7 +87,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 	public String issueJwt(Key secretKey, String jwtId, String subject, String issuer, String audience,
 			String roles, String permissions, String algorithm, long period)  throws JwtException {
 		
-		Map<String, Object> claims = Maps.newHashMap();
+		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("roles", roles);
 		claims.put("perms", permissions);
 		

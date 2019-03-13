@@ -18,17 +18,16 @@ package com.github.vindell.jwt.token;
 import java.text.ParseException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.JwtPayload;
 import com.github.vindell.jwt.exception.IncorrectJwtException;
 import com.github.vindell.jwt.exception.InvalidJwtToken;
+import com.github.vindell.jwt.exception.JwtException;
 import com.github.vindell.jwt.time.JwtTimeProvider;
-import com.github.vindell.jwt.verifier.ExtendedMACVerifier;
 import com.github.vindell.jwt.utils.NimbusdsUtils;
-
-import com.google.common.collect.Maps;
+import com.github.vindell.jwt.verifier.ExtendedMACVerifier;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -70,7 +69,7 @@ public class SignedWithHamcJWTRepository implements JwtRepository<String> {
 	public String issueJwt(String signingKey, String jwtId, String subject, String issuer, String audience,
 			String roles, String permissions, String algorithm, long period)  throws JwtException {
 		
-		Map<String, Object> claims = Maps.newHashMap();
+		Map<String, Object> claims =  new HashMap<String, Object>();
 		claims.put("roles", roles);
 		claims.put("perms", permissions);
 		
