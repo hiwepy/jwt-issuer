@@ -21,8 +21,6 @@ import java.util.Base64;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -189,28 +187,6 @@ public class SecretKeyUtils {
 		PBEKeySpec keySpec = new PBEKeySpec(password);
 		// 生成密钥
 		return SecretKeyUtils.genSecretKey(keySpec, algorithm);
-	}
-
-	public static SecretKey genDESKey(String key) throws GeneralSecurityException {
-		return SecretKeyUtils.genDESKey(key.getBytes());
-	}
-
-	public static SecretKey genDESKey(byte[] key) throws GeneralSecurityException {
-		// 实例化Des密钥
-		DESKeySpec dks = new DESKeySpec(key);
-		// 生成密钥
-		return SecretKeyUtils.genSecretKey(dks, KEY_DES);
-	}
-
-	public static SecretKey genDESedeKey(String key) throws GeneralSecurityException {
-		return SecretKeyUtils.genDESedeKey(key.getBytes());
-	}
-
-	public static SecretKey genDESedeKey(byte[] key) throws GeneralSecurityException {
-		// 实例化Des密钥
-		DESedeKeySpec dks = new DESedeKeySpec(key);
-		// 生成密钥
-		return SecretKeyUtils.genSecretKey(dks, KEY_DESEDE);
 	}
 
 	public static SecureRandom genSecureRandom() {

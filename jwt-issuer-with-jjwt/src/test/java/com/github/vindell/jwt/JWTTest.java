@@ -18,15 +18,18 @@
  */
 package com.github.vindell.jwt;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import com.github.vindell.jwt.utils.JJwtUtils;
+import com.github.vindell.jwt.utils.SecretKeyUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
@@ -87,13 +90,18 @@ public class JWTTest {
 		System.out.println("isTokenExpired:" + JJwtUtils.isTokenExpired(secretKey, token1));
 	}
 
+	private byte[] base64Secret = Base64.getDecoder().decode("6Tb9jCzN1jXppMrsLYfXbERiGiGp4nNtXuVdTGV9qN0=");
+	
+	
 	@Test
 	public void applyToken2() throws Exception {
 
+		
 		System.out.println("//-----------------------------------------------------------");
 		
 		// Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-		SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+		SecretKey secretKey = SecretKeyUtils.genSecretKey(base64Secret, "HmacSHA256");
+		System.out.println(Base64.getEncoder().encodeToString(secretKey.getEncoded()));
 		
 		String token2 = JJwtUtils
 				.jwtBuilder(UUID.randomUUID().toString(), "Jwt测试2", "test2", "0002", "admin,stu", "user:del", 1024)
