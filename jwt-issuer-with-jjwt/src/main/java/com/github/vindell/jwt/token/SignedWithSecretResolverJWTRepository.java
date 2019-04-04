@@ -80,6 +80,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	 * @param roles			: The Roles
 	 * @param permissions	: The Perms
 	 * @param algorithm		: Supported algorithms：
+	 *  <p> none: No digital signature or MAC performed </p>
 	 *  <p> HS256: HMAC using SHA-256 </p>
 	 *  <p> HS384: HMAC using SHA-384 </p>
      *  <p> HS512: HMAC using SHA-512 </p>
@@ -117,6 +118,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	 * @param audience 		: Jwt Audience
 	 * @param claims		: Jwt Claims
 	 * @param algorithm		: Supported algorithms：
+	 *  <p> none: No digital signature or MAC performed </p>
 	 *  <p> HS256: HMAC using SHA-256 </p>
 	 *  <p> HS384: HMAC using SHA-384 </p>
      *  <p> HS512: HMAC using SHA-512 </p>
@@ -144,7 +146,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 				// 压缩类型
 				.compressWith(getCompressWith())
 				// 设置算法（必须）
-				.signWith(SignatureAlgorithm.forName(algorithm), secretKey);
+				.signWith(secretKey, SignatureAlgorithm.forName(algorithm));
 
 		// 签发时间
 		long currentTimeMillis = this.getTimeProvider().now();

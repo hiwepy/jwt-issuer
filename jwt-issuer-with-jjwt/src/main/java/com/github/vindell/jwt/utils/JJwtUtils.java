@@ -15,6 +15,7 @@
  */
 package com.github.vindell.jwt.utils;
 
+import java.security.Key;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
@@ -31,7 +32,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * 基于JJwt组件的jwt工具对象
@@ -86,6 +86,7 @@ public class JJwtUtils {
 			Date expiration = new Date(currentTimeMillis + period);
 			builder.setExpiration(expiration);
 		}
+		
 		return builder;
 	}
 
@@ -153,47 +154,47 @@ public class JJwtUtils {
 		return payload;
 	}
 
-	public static Claims parseJWT(String base64Secret, String token) {
+	public static Claims parseJWT(Key secretKey, String token) {
 		// 解析jwt串 :其中parseClaimsJws验证jwt字符串失败可能会抛出异常，需要捕获异常
-		Claims claims = Jwts.parser().setSigningKey(base64Secret).parseClaimsJws(token).getBody();
+		Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 		return claims;
 	}
 
-	public String genAccessToken(String signatureAlgorithm, String base64Secret, String uid, String subject,
+	public String genAccessToken(Key secretKey, String uid, String subject,
 			String issuer, String audience, Map<String, Object> claims, long access_token_expiration) {
 		return jwtBuilder(uid, subject, issuer, audience, claims, access_token_expiration)
 				// 压缩，可选GZIP
 				.compressWith(CompressionCodecs.DEFLATE)
 				// 设置算法（必须）
-				.signWith(SignatureAlgorithm.forName(signatureAlgorithm), base64Secret).compact();
+				.signWith(secretKey).compact();
 	}
 
-	public String genRefreshToken(String signatureAlgorithm, String base64Secret, String uid, String subject,
+	public String genRefreshToken(Key secretKey, String uid, String subject,
 			String issuer, String audience, Map<String, Object> claims, long refresh_token_expiration) {
 		return jwtBuilder(uid, subject, issuer, audience, claims, refresh_token_expiration)
 				// 压缩，可选GZIP
 				.compressWith(CompressionCodecs.DEFLATE)
 				// 设置算法（必须）
-				.signWith(SignatureAlgorithm.forName(signatureAlgorithm), base64Secret).compact();
+				.signWith(secretKey).compact();
 	}
 
-	public Boolean canTokenBeRefreshed(String base64Secret, String token, Date lastPasswordReset) {
-		final Date created = getCreatedDateFromToken(base64Secret, token);
-		return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset) && (!isTokenExpired(base64Secret, token));
+	public Boolean canTokenBeRefreshed(Key secretKey, String token, Date lastPasswordReset) {
+		final Date created = getCreatedDateFromToken(secretKey, token);
+		return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset) && (!isTokenExpired(secretKey, token));
 	}
 
-	public String refreshToken(String signatureAlgorithm, String base64Secret, String token,
+	public String refreshToken(Key secretKey, String token,
 			long access_token_expiration) {
 		String refreshedToken;
 		try {
-			final Claims claims = parseJWT(base64Secret, token);
+			final Claims claims = parseJWT(secretKey, token);
 			Iterator<Entry<String, Object>> ite = claims.entrySet().iterator();
 			Map<String, Object> claimMap = new HashMap<String, Object>();
 			while (ite.hasNext()) {
 				Entry<String, Object> entry = ite.next();
 				claimMap.put(entry.getKey(), entry.getValue());
 			}
-			refreshedToken = genAccessToken(signatureAlgorithm, base64Secret, claims.getId(), claims.getSubject(),
+			refreshedToken = genAccessToken(secretKey, claims.getId(), claims.getSubject(),
 
 					claims.getIssuer(), claims.getAudience(), claimMap, access_token_expiration);
 		} catch (Exception e) {
@@ -202,10 +203,10 @@ public class JJwtUtils {
 		return refreshedToken;
 	}
 
-	public long getUserIdFromToken(String base64Secret, String token) {
+	public long getUserIdFromToken(Key secretKey, String token) {
 		long userId;
 		try {
-			final Claims claims = parseJWT(base64Secret, token);
+			final Claims claims = parseJWT(secretKey, token);
 			userId = (Long) claims.get(CLAIM_KEY_USER_ID);
 		} catch (Exception e) {
 			userId = 0;
@@ -213,10 +214,10 @@ public class JJwtUtils {
 		return userId;
 	}
 
-	public String getUsernameFromToken(String base64Secret, String token) {
+	public String getUsernameFromToken(Key secretKey, String token) {
 		String username;
 		try {
-			final Claims claims = parseJWT(base64Secret, token);
+			final Claims claims = parseJWT(secretKey, token);
 			username = claims.getSubject();
 		} catch (Exception e) {
 			username = null;
@@ -224,10 +225,10 @@ public class JJwtUtils {
 		return username;
 	}
 
-	public Date getCreatedDateFromToken(String base64Secret, String token) {
+	public Date getCreatedDateFromToken(Key secretKey, String token) {
 		Date created;
 		try {
-			final Claims claims = parseJWT(base64Secret, token);
+			final Claims claims = parseJWT(secretKey, token);
 			created = claims.getIssuedAt();
 		} catch (Exception e) {
 			created = null;
@@ -235,10 +236,10 @@ public class JJwtUtils {
 		return created;
 	}
 
-	public static Date getExpirationDateFromToken(String base64Secret, String token) {
+	public static Date getExpirationDateFromToken(Key secretKey, String token) {
 		Date expiration;
 		try {
-			final Claims claims = parseJWT(base64Secret, token);
+			final Claims claims = parseJWT(secretKey, token);
 			expiration = claims.getExpiration();
 		} catch (Exception e) {
 			expiration = null;
@@ -247,8 +248,8 @@ public class JJwtUtils {
 	}
 
 
-	public static Boolean isTokenExpired(String base64Secret, String token) {
-		final Date expiration = getExpirationDateFromToken(base64Secret, token);
+	public static Boolean isTokenExpired(Key secretKey, String token) {
+		final Date expiration = getExpirationDateFromToken(secretKey, token);
 		return expiration.before(new Date());
 	}
 
