@@ -42,6 +42,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
@@ -203,12 +204,13 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 			throw new ExpiredJwtException(e);
 		} catch (InvalidClaimException e) {
 			throw new InvalidJwtToken(e);
+		} catch (MalformedJwtException e) {
+			throw new IncorrectJwtException(e);
 		} catch (JwtException e) {
 			throw new IncorrectJwtException(e);
 		} catch (IllegalArgumentException e) {
 			throw new IncorrectJwtException(e);
 		}
-		
 	}
 
 	/**
@@ -244,6 +246,8 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 			throw new ExpiredJwtException(e);
 		} catch (InvalidClaimException e) {
 			throw new InvalidJwtToken(e);
+		} catch (MalformedJwtException e) {
+			throw new IncorrectJwtException(e);
 		} catch (JwtException e) {
 			throw new IncorrectJwtException(e);
 		} catch (IllegalArgumentException e) {
