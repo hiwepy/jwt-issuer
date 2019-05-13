@@ -46,8 +46,13 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.MissingClaimException;
+import io.jsonwebtoken.PrematureJwtException;
+import io.jsonwebtoken.RequiredTypeException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SigningKeyResolver;
+import io.jsonwebtoken.security.InvalidKeyException;
+import io.jsonwebtoken.security.SignatureException;
 
 /**
  * <b> JSON Web Token (JWT) with signature  </b>
@@ -140,29 +145,35 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	public String issueJwt(Key secretKey, String keyId, String jwtId, String subject, String issuer, String audience,
 			Map<String, Object> claims,	String algorithm, long period) throws JwtException {
 		
-		JwtBuilder builder = JJwtUtils
-				.jwtBuilder(jwtId, subject, issuer, audience, claims, period)
-				// 指定KeyID以便进行验证时，动态获取该ID对应的Key
-				.setHeaderParam(JwsHeader.KEY_ID, StringUtils.isNoneBlank(keyId) ? keyId : Base64.getEncoder().encodeToString(secretKey.getEncoded()))
-				// 压缩类型
-				.compressWith(getCompressWith())
-				// 设置算法（必须）
-				.signWith(secretKey, SignatureAlgorithm.forName(algorithm));
+		try {
+			JwtBuilder builder = JJwtUtils
+					.jwtBuilder(jwtId, subject, issuer, audience, claims, period)
+					// 指定KeyID以便进行验证时，动态获取该ID对应的Key
+					.setHeaderParam(JwsHeader.KEY_ID, StringUtils.isNoneBlank(keyId) ? keyId : Base64.getEncoder().encodeToString(secretKey.getEncoded()))
+					// 压缩类型
+					.compressWith(getCompressWith())
+					// 设置算法（必须）
+					.signWith(secretKey, SignatureAlgorithm.forName(algorithm));
 
-		// 签发时间
-		long currentTimeMillis = this.getTimeProvider().now();
-		Date now = new Date(currentTimeMillis);
-		builder.setIssuedAt(now);
-		// 有效期起始时间
-		builder.setNotBefore(now);
-		// Token过期时间
-		if (period >= 0) {
-			// 有效时间
-			Date expiration = new Date(currentTimeMillis + period);
-			builder.setExpiration(expiration);
+			// 签发时间
+			long currentTimeMillis = this.getTimeProvider().now();
+			Date now = new Date(currentTimeMillis);
+			builder.setIssuedAt(now);
+			// 有效期起始时间
+			builder.setNotBefore(now);
+			// Token过期时间
+			if (period >= 0) {
+				// 有效时间
+				Date expiration = new Date(currentTimeMillis + period);
+				builder.setExpiration(expiration);
+			}
+					
+			return builder.compact();
+		} catch (InvalidKeyException e) {
+			throw new JwtException(e);
+		} catch (SignatureException e) {
+			throw new JwtException(e);
 		}
-				
-		return builder.compact();
 	}
 	
 	/**
@@ -217,12 +228,18 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 				throw new ExpiredJwtException("Expired JWT value. ");
 			}
 			return true;
+		} catch (MalformedJwtException e) {
+			throw new IncorrectJwtException(e);
+		} catch (MissingClaimException e) {
+			throw new IncorrectJwtException(e);
 		} catch (io.jsonwebtoken.ExpiredJwtException e) {
 			throw new ExpiredJwtException(e);
 		} catch (InvalidClaimException e) {
 			throw new InvalidJwtToken(e);
-		} catch (MalformedJwtException e) {
-			throw new IncorrectJwtException(e);
+		} catch (PrematureJwtException e) {
+			throw new InvalidJwtToken(e);
+		} catch (RequiredTypeException e) {
+			throw new InvalidJwtToken(e);
 		} catch (JwtException e) {
 			throw new IncorrectJwtException(e);
 		} catch (IllegalArgumentException e) {
@@ -257,13 +274,19 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			Jws<Claims> jws = jwtParser.setSigningKeyResolver(signingKeyResolver).parseClaimsJws(token);
 			
 			return JJwtUtils.payload(jws.getBody());
+		} catch (MalformedJwtException e) {
+			throw new IncorrectJwtException(e);
+		} catch (MissingClaimException e) {
+			throw new IncorrectJwtException(e);
 		} catch (io.jsonwebtoken.ExpiredJwtException e) {
 			throw new ExpiredJwtException(e);
 		} catch (InvalidClaimException e) {
 			throw new InvalidJwtToken(e);
+		} catch (PrematureJwtException e) {
+			throw new InvalidJwtToken(e);
+		} catch (RequiredTypeException e) {
+			throw new InvalidJwtToken(e);
 		} catch (JwtException e) {
-			throw new IncorrectJwtException(e);
-		} catch (MalformedJwtException e) {
 			throw new IncorrectJwtException(e);
 		} catch (IllegalArgumentException e) {
 			throw new IncorrectJwtException(e);
