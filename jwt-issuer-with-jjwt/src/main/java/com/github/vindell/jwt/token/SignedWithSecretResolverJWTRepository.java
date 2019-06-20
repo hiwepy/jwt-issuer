@@ -160,7 +160,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			Date now = new Date(currentTimeMillis);
 			builder.setIssuedAt(now);
 			// 有效期起始时间
-			builder.setNotBefore(now);
+			//builder.setNotBefore(now);
 			// Token过期时间
 			if (period >= 0) {
 				// 有效时间

@@ -79,7 +79,7 @@ public class JJwtUtils {
 		Date now = new Date(currentTimeMillis);
 		builder.setIssuedAt(now);
 		// 默认有效期起始时间
-		builder.setNotBefore(now);
+		//builder.setNotBefore(now);
 		// Token过期时间
 		if (period >= 0) {
 			// 有效时间
@@ -93,8 +93,6 @@ public class JJwtUtils {
 	public static JwtBuilder jwtBuilder(String jwtId, String subject,
 			String issuer, String audience, String roles, String permissions, long period) {
 		
-		// 当前时间戳
-		long currentTimeMillis = System.currentTimeMillis();
 		JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT");
 		
 		// Jwt主键ID
@@ -114,18 +112,7 @@ public class JJwtUtils {
 		if (StringUtils.isNoneBlank(issuer)) {
 			builder.setIssuer(issuer);
 			builder.claim(Claims.ISSUER, issuer);
-		}
-		// 默认签发时间
-		Date now = new Date(currentTimeMillis);
-		builder.setIssuedAt(now);
-		// 默认有效期起始时间
-		builder.setNotBefore(now);
-		// Token过期时间
-		if (period >= 0) {
-			// 有效时间
-			Date expiration = new Date(currentTimeMillis + period);
-			builder.setExpiration(expiration);
-		}
+		} 
 		// 角色
 		if (StringUtils.isNoneBlank(roles)) {
 			builder.claim("roles", roles);
