@@ -15,11 +15,14 @@
  */
 package com.github.vindell.jwt;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.vindell.jwt.utils.StringUtils;
 
 /**
@@ -118,17 +121,49 @@ public class JwtPayload {
 	public void setHost(String host) {
 		this.host = host;
 	}
+
+	public boolean isRestricted() {
+		return Boolean.parseBoolean(String.valueOf(getClaims().get("restricted")));
+	}
+	
+	public boolean isInitial() {
+		return Boolean.parseBoolean(String.valueOf(claims.get("initial")));
+	}
 	
 	public String getAlias() {
 		return StringUtils.isEmpty(alias) ? String.valueOf(getClaims().get("alias")) : alias;
 	}
 
-	public String getRoles() {
-		return String.valueOf(getClaims().get("roles"));
+	public String getRoleid() {
+		return String.valueOf(getClaims().get("roleid"));
+	}
+	
+	public String getRole() {
+		return String.valueOf(getClaims().get("role"));
+	}
+	
+	public List<String> getRoles() {
+		Object obj = getClaims().get("roles");
+		if(obj != null) {
+			return Arrays.asList(StringUtils.tokenizeToStringArray(String.valueOf(obj)));
+		}
+		return new ArrayList<String>();
 	}
 
-	public String getPerms() {
-		return String.valueOf(getClaims().get("perms"));
+	public List<String> getPerms() {
+		Object obj = getClaims().get("perms");
+		if(obj != null) {
+			return Arrays.asList(StringUtils.tokenizeToStringArray(String.valueOf(obj)));
+		}
+		return new ArrayList<String>();
+	}
+	
+	public Map<String,Object> getProfile() {
+		Object obj = getClaims().get("profile");
+		if(obj != null) {
+			return JSONObject.parseObject(String.valueOf(obj), Map.class);
+		}
+		return new HashMap<String,Object>();
 	}
 
 	public boolean isAccountNonExpired() {
