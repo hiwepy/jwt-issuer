@@ -130,6 +130,14 @@ public class JwtPayload {
 		return Boolean.parseBoolean(String.valueOf(claims.get("initial")));
 	}
 	
+	public boolean isFace() {
+		return Boolean.parseBoolean(String.valueOf(claims.get("face")));
+	}
+	
+	public String getFaceid() {
+		return String.valueOf(getClaims().get("faceid"));
+	}
+	
 	public String getAlias() {
 		return StringUtils.isEmpty(alias) ? String.valueOf(getClaims().get("alias")) : alias;
 	}
@@ -158,10 +166,15 @@ public class JwtPayload {
 		return new ArrayList<String>();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Map<String,Object> getProfile() {
 		Object obj = getClaims().get("profile");
 		if(obj != null) {
-			return JSONObject.parseObject(String.valueOf(obj), Map.class);
+			try {
+				return JSONObject.parseObject(String.valueOf(obj), Map.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return new HashMap<String,Object>();
 	}
