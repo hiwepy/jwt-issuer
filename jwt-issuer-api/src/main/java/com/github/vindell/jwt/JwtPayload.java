@@ -173,7 +173,6 @@ public class JwtPayload {
 			try {
 				return JSONObject.parseObject(String.valueOf(obj), Map.class);
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 		return new HashMap<String,Object>();
