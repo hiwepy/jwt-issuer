@@ -15,13 +15,17 @@
  */
 package com.github.vindell.jwt;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.vindell.jwt.utils.StringUtils;
 
@@ -150,12 +154,20 @@ public class JwtPayload {
 		return String.valueOf(getClaims().get("role"));
 	}
 	
-	public List<String> getRoles() {
+	public Set<SimpleEntry<String, String>> getRoles() {
 		Object obj = getClaims().get("roles");
 		if(obj != null) {
-			return Arrays.asList(StringUtils.tokenizeToStringArray(String.valueOf(obj)));
+			Set<SimpleEntry<String, String>> sets = new HashSet<>();
+			JSONArray array = JSONObject.parseArray(String.valueOf(obj));
+			if(null != array ) {
+				for (int index = 0; index < array.size(); index++) {
+					JSONObject object = array.getJSONObject(index);
+					sets.add(new SimpleEntry<String, String>(object.getString("key"), object.getString("value")));
+				}
+			}
+			return sets;
 		}
-		return new ArrayList<String>();
+		return new HashSet<>();
 	}
 
 	public List<String> getPerms() {
