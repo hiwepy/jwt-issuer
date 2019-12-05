@@ -15,7 +15,6 @@
  */
 package com.github.vindell.jwt;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -154,15 +153,19 @@ public class JwtPayload {
 		return String.valueOf(getClaims().get("role"));
 	}
 	
-	public Set<SimpleEntry<String, String>> getRoles() {
+	public Set<Map<String, String>> getRoles() {
 		Object obj = getClaims().get("roles");
 		if(obj != null) {
-			Set<SimpleEntry<String, String>> sets = new HashSet<>();
+			Set<Map<String, String>> sets = new HashSet<>();
 			JSONArray array = JSONObject.parseArray(String.valueOf(obj));
 			if(null != array ) {
 				for (int index = 0; index < array.size(); index++) {
 					JSONObject object = array.getJSONObject(index);
-					sets.add(new SimpleEntry<String, String>(object.getString("key"), object.getString("value")));
+					Map<String, String> roleMap = new HashMap<>();
+					roleMap.put("id", object.getString("id"));
+					roleMap.put("key", object.getString("key"));
+					roleMap.put("value", object.getString("value"));
+					sets.add(roleMap);
 				}
 			}
 			return sets;
