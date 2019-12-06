@@ -15,16 +15,14 @@
  */
 package com.github.vindell.jwt;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.vindell.jwt.utils.StringUtils;
 
@@ -153,24 +151,12 @@ public class JwtPayload {
 		return String.valueOf(getClaims().get("role"));
 	}
 	
-	public Set<Map<String, String>> getRoles() {
+	public List<RolePair> getRoles() {
 		Object obj = getClaims().get("roles");
 		if(obj != null) {
-			Set<Map<String, String>> sets = new HashSet<>();
-			JSONArray array = JSONObject.parseArray(String.valueOf(obj));
-			if(null != array ) {
-				for (int index = 0; index < array.size(); index++) {
-					JSONObject object = array.getJSONObject(index);
-					Map<String, String> roleMap = new HashMap<>();
-					roleMap.put("id", object.getString("id"));
-					roleMap.put("key", object.getString("key"));
-					roleMap.put("value", object.getString("value"));
-					sets.add(roleMap);
-				}
-			}
-			return sets;
+			return JSONObject.parseArray(String.valueOf(obj), RolePair.class);
 		}
-		return new HashSet<>();
+		return new ArrayList<>();
 	}
 
 	public List<String> getPerms() {
@@ -229,4 +215,48 @@ public class JwtPayload {
 		this.alias = alias;
 	}
 	
+	@SuppressWarnings("serial")
+	public static class RolePair implements Serializable {
+
+		private String id;
+		private String key;
+		private String value;
+		
+		public RolePair() {
+			
+		}
+
+		public RolePair(String id, String key, String value) {
+			super();
+			this.id = id;
+			this.key = key;
+			this.value = value;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getKey() {
+			return key;
+		}
+
+		public void setKey(String key) {
+			this.key = key;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		public void setValue(String value) {
+			this.value = value;
+		}
+
+	}
+
 }
