@@ -189,6 +189,11 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			
 		try {
 			
+			// 解密成功且不需要进行过期检查则返回true
+			if(!checkExpiry) {
+				return true;
+			}
+			
 			// Retrieve / verify the JWT claims according to the app requirements
 			JwtParser jwtParser = Jwts.parser();
 			// 设置允许的时间误差
@@ -202,10 +207,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 
 			// 解密JWT，如果无效则会抛出异常
 			Jws<Claims> jws = jwtParser.setSigningKeyResolver(signingKeyResolver).parseClaimsJws(token);
-			// 解密成功且不需要进行过期检查则返回true
-			if(!checkExpiry) {
-				return true;
-			}
+			
 			
 			Claims claims = jws.getBody();
 
