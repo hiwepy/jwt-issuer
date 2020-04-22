@@ -32,10 +32,10 @@ import com.github.hiwepy.jwt.exception.IncorrectJwtException;
 import com.github.hiwepy.jwt.exception.InvalidJwtToken;
 import com.github.hiwepy.jwt.exception.JwtException;
 import com.github.hiwepy.jwt.exception.NotObtainedJwtException;
-import com.github.hiwepy.jwt.time.JwtTimeProvider;
 import com.github.hiwepy.jwt.utils.JJwtUtils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.CompressionCodec;
 import io.jsonwebtoken.CompressionCodecResolver;
 import io.jsonwebtoken.CompressionCodecs;
@@ -43,6 +43,7 @@ import io.jsonwebtoken.InvalidClaimException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.JwtClock;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -51,6 +52,7 @@ import io.jsonwebtoken.PrematureJwtException;
 import io.jsonwebtoken.RequiredTypeException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SigningKeyResolver;
+import io.jsonwebtoken.impl.ExtDefaultJwtParser;
 import io.jsonwebtoken.security.InvalidKeyException;
 import io.jsonwebtoken.security.SignatureException;
 
@@ -65,7 +67,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	private CompressionCodec compressWith = CompressionCodecs.DEFLATE;
 	private SigningKeyResolver signingKeyResolver;
     private CompressionCodecResolver compressionCodecResolver;
-    private JwtTimeProvider timeProvider = JwtTimeProvider.DEFAULT_TIME_PROVIDER;
+    private Clock clock = new JwtClock();
     
     public SignedWithSecretResolverJWTRepository() {
     }
@@ -156,15 +158,14 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 					.signWith(secretKey, SignatureAlgorithm.forName(algorithm));
 
 			// 签发时间
-			long currentTimeMillis = this.getTimeProvider().now();
-			Date now = new Date(currentTimeMillis);
+			Date now = this.getClock().now();
 			builder.setIssuedAt(now);
 			// 有效期起始时间
 			//builder.setNotBefore(now);
 			// Token过期时间
 			if (period >= 0) {
 				// 有效时间
-				Date expiration = new Date(currentTimeMillis + period);
+				Date expiration = new Date(now.getTime() + period);
 				builder.setExpiration(expiration);
 			}
 					
@@ -195,7 +196,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			}
 			
 			// Retrieve / verify the JWT claims according to the app requirements
-			JwtParser jwtParser = Jwts.parser();
+			JwtParser jwtParser = (checkExpiry ? Jwts.parser() : new ExtDefaultJwtParser()).setClock(clock);
 			// 设置允许的时间误差
 			if(getAllowedClockSkewSeconds() > 0) {
 				jwtParser.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());	
@@ -214,19 +215,19 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			Date issuedAt = claims.getIssuedAt();
 			Date notBefore = claims.getNotBefore();
 			Date expiration = claims.getExpiration();
-			long currentTimeMillis = this.getTimeProvider().now();
+			Date now = this.getClock().now();
 
 			if (logger.isDebugEnabled()) {
 				logger.debug("JWT IssuedAt:" + issuedAt);
 				logger.debug("JWT NotBefore:" + notBefore);
 				logger.debug("JWT Expiration:" + expiration);
-				logger.debug("JWT Now:" + new Date(currentTimeMillis));
+				logger.debug("JWT Now:" + now);
 			}
 			
-			if(notBefore != null && currentTimeMillis <= notBefore.getTime()) {
+			if(notBefore != null && now.getTime() <= notBefore.getTime()) {
 				throw new NotObtainedJwtException(String.format("JWT was not obtained before this timestamp : [%s].", notBefore));
 			}
-			if(expiration != null && expiration.getTime() < currentTimeMillis) {
+			if(expiration != null && expiration.getTime() < now.getTime()) {
 				throw new ExpiredJwtException("Expired JWT value. ");
 			}
 			return true;
@@ -263,7 +264,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 		try {
 			
 			// Retrieve JWT claims
-			JwtParser jwtParser = Jwts.parser();
+			JwtParser jwtParser = (checkExpiry ? Jwts.parser() : new ExtDefaultJwtParser()).setClock(clock);
 			// 设置允许的时间误差
 			if(getAllowedClockSkewSeconds() > 0) {
 				jwtParser.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());	
@@ -321,16 +322,12 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 		this.compressionCodecResolver = compressionCodecResolver;
 	}
 
-	public JwtTimeProvider getTimeProvider() {
-		return timeProvider;
+	public Clock getClock() {
+		return clock;
 	}
 
-	public void setTimeProvider(JwtTimeProvider timeProvider) {
-		this.timeProvider = timeProvider;
-	}
-	
-	public SigningKeyResolver getSigningKeyResolver() {
-		return signingKeyResolver;
+	public void setClock(Clock clock) {
+		this.clock = clock;
 	}
 
 	public void setSigningKeyResolver(SigningKeyResolver signingKeyResolver) {
