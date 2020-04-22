@@ -59,7 +59,7 @@ import java.util.Date;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public class ExtDefaultJwtParser implements JwtParser {
+public class NoExpirationCheckJwtParser implements JwtParser {
 
     private static final int MILLISECONDS_PER_SECOND = 1000;
 

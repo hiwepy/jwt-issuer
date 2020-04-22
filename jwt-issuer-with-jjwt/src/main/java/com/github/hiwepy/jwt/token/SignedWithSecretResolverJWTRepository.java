@@ -52,7 +52,7 @@ import io.jsonwebtoken.PrematureJwtException;
 import io.jsonwebtoken.RequiredTypeException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SigningKeyResolver;
-import io.jsonwebtoken.impl.ExtDefaultJwtParser;
+import io.jsonwebtoken.impl.NoExpirationCheckJwtParser;
 import io.jsonwebtoken.security.InvalidKeyException;
 import io.jsonwebtoken.security.SignatureException;
 
@@ -190,13 +190,8 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			
 		try {
 			
-			// 解密成功且不需要进行过期检查则返回true
-			if(!checkExpiry) {
-				return true;
-			}
-			
 			// Retrieve / verify the JWT claims according to the app requirements
-			JwtParser jwtParser = (checkExpiry ? Jwts.parser() : new ExtDefaultJwtParser()).setClock(clock);
+			JwtParser jwtParser = (checkExpiry ? Jwts.parser() : new NoExpirationCheckJwtParser()).setClock(clock);
 			// 设置允许的时间误差
 			if(getAllowedClockSkewSeconds() > 0) {
 				jwtParser.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());	
@@ -264,7 +259,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 		try {
 			
 			// Retrieve JWT claims
-			JwtParser jwtParser = (checkExpiry ? Jwts.parser() : new ExtDefaultJwtParser()).setClock(clock);
+			JwtParser jwtParser = (checkExpiry ? Jwts.parser() : new NoExpirationCheckJwtParser()).setClock(clock);
 			// 设置允许的时间误差
 			if(getAllowedClockSkewSeconds() > 0) {
 				jwtParser.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());	
