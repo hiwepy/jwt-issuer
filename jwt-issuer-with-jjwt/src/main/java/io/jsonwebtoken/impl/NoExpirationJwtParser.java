@@ -15,6 +15,12 @@
  */
 package io.jsonwebtoken.impl;
 
+import java.security.Key;
+import java.util.Date;
+import java.util.Map;
+
+import javax.crypto.spec.SecretKeySpec;
+
 import io.jsonwebtoken.ClaimJwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
@@ -39,13 +45,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.impl.compression.DefaultCompressionCodecResolver;
 import io.jsonwebtoken.impl.crypto.DefaultJwtSignatureValidator;
 import io.jsonwebtoken.impl.crypto.JwtSignatureValidator;
-import io.jsonwebtoken.impl.io.InstanceLocator;
+import io.jsonwebtoken.impl.lang.LegacyServices;
 import io.jsonwebtoken.io.Decoder;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.DeserializationException;
 import io.jsonwebtoken.io.Deserializer;
 import io.jsonwebtoken.lang.Assert;
-import io.jsonwebtoken.lang.Classes;
 import io.jsonwebtoken.lang.DateFormats;
 import io.jsonwebtoken.lang.Objects;
 import io.jsonwebtoken.lang.Strings;
@@ -53,16 +58,12 @@ import io.jsonwebtoken.security.InvalidKeyException;
 import io.jsonwebtoken.security.SignatureException;
 import io.jsonwebtoken.security.WeakKeyException;
 
-import javax.crypto.spec.SecretKeySpec;
-import java.security.Key;
-import java.util.Date;
-import java.util.Map;
-
 @SuppressWarnings("unchecked")
-public class NoExpirationCheckJwtParser implements JwtParser {
+public class NoExpirationJwtParser implements JwtParser {
 
-    private static final int MILLISECONDS_PER_SECOND = 1000;
+	 private static final int MILLISECONDS_PER_SECOND = 1000;
 
+    // TODO: make the folling fields final for v1.0
     private byte[] keyBytes;
 
     private Key key;
@@ -80,6 +81,29 @@ public class NoExpirationCheckJwtParser implements JwtParser {
     private Clock clock = DefaultClock.INSTANCE;
 
     private long allowedClockSkewMillis = 0;
+    
+    public NoExpirationJwtParser() { }
+    
+    NoExpirationJwtParser(SigningKeyResolver signingKeyResolver,
+            Key key,
+            byte[] keyBytes,
+            Clock clock,
+            long allowedClockSkewMillis,
+            Claims expectedClaims,
+            Decoder<String, byte[]> base64UrlDecoder,
+            Deserializer<Map<String, ?>> deserializer,
+            CompressionCodecResolver compressionCodecResolver) {
+	this.signingKeyResolver = signingKeyResolver;
+	this.key = key;
+	this.keyBytes = keyBytes;
+	this.clock = clock;
+	this.allowedClockSkewMillis = allowedClockSkewMillis;
+	this.expectedClaims = expectedClaims;
+	this.base64UrlDecoder = base64UrlDecoder;
+	this.deserializer = deserializer;
+	this.compressionCodecResolver = compressionCodecResolver;
+	}
+
 
     @Override
     public JwtParser deserializeJsonWith(Deserializer<Map<String, ?>> deserializer) {
@@ -220,11 +244,12 @@ public class NoExpirationCheckJwtParser implements JwtParser {
     @Override
     public Jwt parse(String jwt) throws ExpiredJwtException, MalformedJwtException, SignatureException {
 
+        // TODO, this logic is only need for a now deprecated code path
+        // remove this block in v1.0 (the equivalent is already in DefaultJwtParserBuilder)
         if (this.deserializer == null) {
-            //try to find one based on the runtime environment:
-            InstanceLocator<Deserializer<Map<String, ?>>> locator =
-                Classes.newInstance("io.jsonwebtoken.impl.io.RuntimeClasspathDeserializerLocator");
-            this.deserializer = locator.getInstance();
+            // try to find one based on the services available
+            // TODO: This util class will throw a UnavailableImplementationException here to retain behavior of previous version, remove in v1.0
+            this.deserializer = LegacyServices.loadFirst(Deserializer.class);
         }
 
         Assert.hasText(jwt, "JWT String argument cannot be null or empty.");
@@ -391,11 +416,10 @@ public class NoExpirationCheckJwtParser implements JwtParser {
 
             final Date now = this.clock.now();
             long nowTime = now.getTime();
-            
+
             //https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-30#section-4.1.4
             //token MUST NOT be accepted on or after any specified exp time:
-            /*
-            Date exp = claims.getExpiration();
+            /*Date exp = claims.getExpiration();
             if (exp != null) {
 
                 long maxTime = nowTime - this.allowedClockSkewMillis;

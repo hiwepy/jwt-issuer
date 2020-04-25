@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,13 +43,13 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtClock;
 import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.JwtParserBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.MissingClaimException;
 import io.jsonwebtoken.PrematureJwtException;
 import io.jsonwebtoken.RequiredTypeException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.NoExpirationCheckJwtParser;
 import io.jsonwebtoken.security.InvalidKeyException;
 import io.jsonwebtoken.security.SignatureException;
 
@@ -63,6 +64,30 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 	private CompressionCodec compressWith = CompressionCodecs.DEFLATE;
     private CompressionCodecResolver compressionCodecResolver;
     private Clock clock = new JwtClock();
+    private static final Map<String, JwtParser> PARSER_CONTEXT = new ConcurrentHashMap<>();
+ 
+	public JwtParser getJwtParser(Key secretKey, boolean checkExpiry) {
+		
+		String key = String.format("%s-%s", secretKey.hashCode() , checkExpiry);
+		JwtParser ret = PARSER_CONTEXT.get(key);
+		if (ret != null) {
+			return ret;
+		}
+		
+		JwtParserBuilder jwtParserBuilder = checkExpiry ? Jwts.parserBuilder() : JJwtUtils.parserBuilder();
+		// 时钟
+		jwtParserBuilder.setClock(clock)
+		// 签名Key
+		.setSigningKey(secretKey)
+		// 允许的时间误差
+		.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());
+		// 压缩方式解析器
+		if(null != getCompressionCodecResolver() ) {
+			jwtParserBuilder.setCompressionCodecResolver(getCompressionCodecResolver());
+		}
+		
+		return PARSER_CONTEXT.put( key, jwtParserBuilder.build());
+	}
     
     /**
 	 * Issue JSON Web Token (JWT)
@@ -176,16 +201,14 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 	@Override
 	public boolean verify(Key secretKey, String token, boolean checkExpiry) throws JwtException {
 			
+		
 		try {
 			
 			// Retrieve / verify the JWT claims according to the app requirements
-			JwtParser jwtParser = (checkExpiry ? Jwts.parser() : new NoExpirationCheckJwtParser()).setClock(clock);
-			// 设置允许的时间误差
-			if(getAllowedClockSkewSeconds() > 0) {
-				jwtParser.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());	
-			}
+			JwtParser jwtParser = this.getJwtParser(secretKey, checkExpiry);
+			 
 			// 解密JWT，如果无效则会抛出异常
-			Jws<Claims> jws = jwtParser.setSigningKey(secretKey).parseClaimsJws(token);
+			Jws<Claims> jws = jwtParser.parseClaimsJws(token);
 			
 			Claims claims = jws.getBody();
 
@@ -244,18 +267,10 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 	public JwtPayload getPlayload(Key secretKey, String token, boolean checkExpiry)  throws JwtException {
 		try {
 			
-			// Retrieve JWT claims
-			JwtParser jwtParser = (checkExpiry ? Jwts.parser() : new NoExpirationCheckJwtParser()).setClock(clock);
-			// 设置允许的时间误差
-			if(getAllowedClockSkewSeconds() > 0) {
-				jwtParser.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());	
-			}
-			// 设置压缩方式解析器
-			if(null != getCompressionCodecResolver() ) {
-				jwtParser.setCompressionCodecResolver(getCompressionCodecResolver());
-			}
+			// Retrieve / verify the JWT claims according to the app requirements
+			JwtParser jwtParser = this.getJwtParser(secretKey, checkExpiry);
 			
-			Jws<Claims> jws = jwtParser.setSigningKey(secretKey).parseClaimsJws(token);
+			Jws<Claims> jws = jwtParser.parseClaimsJws(token);
 			
 			return JJwtUtils.payload(jws.getBody());
 		} catch (MalformedJwtException e) {
