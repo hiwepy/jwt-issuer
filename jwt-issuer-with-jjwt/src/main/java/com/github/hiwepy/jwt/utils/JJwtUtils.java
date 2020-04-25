@@ -56,7 +56,7 @@ public class JJwtUtils {
      * @return a new {@link JwtParser} instance that can be configured create an immutable/thread-safe {@link JwtParser).
      */
     public static JwtParserBuilder parserBuilder() {
-        return Classes.newInstance("io.jsonwebtoken.impl.NoExpirationJwtParser");
+        return Classes.newInstance("io.jsonwebtoken.impl.NoExpirationJwtParserBuilder");
     }
     
 	public static JwtBuilder jwtBuilder(String jwtId, String subject, String issuer, String audience, Map<String, Object> claims,
