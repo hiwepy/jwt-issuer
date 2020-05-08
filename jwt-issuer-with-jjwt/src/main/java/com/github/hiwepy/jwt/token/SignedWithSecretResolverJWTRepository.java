@@ -91,7 +91,9 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			jwtParserBuilder.setCompressionCodecResolver(getCompressionCodecResolver());
 		}
 		
-		return PARSER_CONTEXT.put( key, jwtParserBuilder.build());
+		ret = jwtParserBuilder.build();
+		PARSER_CONTEXT.put( key, ret);
+		return ret;
 	}
 	
 	
