@@ -153,7 +153,7 @@ public class JwtPayload {
 	
 	public List<RolePair> getRoles() {
 		Object obj = getClaims().get("roles");
-		if(obj != null) {
+		if(obj != null && obj instanceof String) {
 			return JSONObject.parseArray(String.valueOf(obj), RolePair.class);
 		}
 		return new ArrayList<>();
@@ -161,7 +161,7 @@ public class JwtPayload {
 
 	public List<String> getPerms() {
 		Object obj = getClaims().get("perms");
-		if(obj != null) {
+		if(obj != null && obj instanceof String) {
 			return Arrays.asList(StringUtils.tokenizeToStringArray(String.valueOf(obj)));
 		}
 		return new ArrayList<String>();
@@ -170,7 +170,7 @@ public class JwtPayload {
 	@SuppressWarnings("unchecked")
 	public Map<String,Object> getProfile() {
 		Object obj = getClaims().get("profile");
-		if(obj != null) {
+		if(obj != null && obj instanceof String) {
 			try {
 				return JSONObject.parseObject(String.valueOf(obj), Map.class);
 			} catch (Exception e) {
