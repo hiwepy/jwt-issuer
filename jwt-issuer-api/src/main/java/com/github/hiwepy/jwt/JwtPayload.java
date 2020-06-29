@@ -17,11 +17,14 @@ package com.github.hiwepy.jwt;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.hiwepy.jwt.utils.StringUtils;
@@ -30,6 +33,7 @@ import com.github.hiwepy.jwt.utils.StringUtils;
  * TODO
  * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */
+@SuppressWarnings("unchecked")
 public class JwtPayload {
 
 	private String tokenId;// 令牌id
@@ -162,18 +166,17 @@ public class JwtPayload {
 		return new ArrayList<>();
 	}
 
-	public List<String> getPerms() {
+	public Set<String> getPerms() {
 		Object obj = getClaims().get("perms");
 		if(obj != null) {
 			if(obj instanceof String) {
-				return Arrays.asList(StringUtils.tokenizeToStringArray(String.valueOf(obj)));
+				return Stream.of(StringUtils.tokenizeToStringArray(String.valueOf(obj))).collect(Collectors.toSet());
 			}
-			return (List<String>) obj;
+			return (Set<String>) obj;
 		}
-		return new ArrayList<String>();
+		return new HashSet<String>();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Map<String,Object> getProfile() {
 		Object obj = getClaims().get("profile");
 		if(obj != null ) {
