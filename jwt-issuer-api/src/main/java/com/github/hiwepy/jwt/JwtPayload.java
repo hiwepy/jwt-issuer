@@ -153,16 +153,22 @@ public class JwtPayload {
 	
 	public List<RolePair> getRoles() {
 		Object obj = getClaims().get("roles");
-		if(obj != null && obj instanceof String) {
-			return JSONObject.parseArray(String.valueOf(obj), RolePair.class);
+		if(obj != null ) {
+			if(obj instanceof String) {
+				return JSONObject.parseArray(String.valueOf(obj), RolePair.class);
+			}
+			return (List<RolePair>) obj;
 		}
 		return new ArrayList<>();
 	}
 
 	public List<String> getPerms() {
 		Object obj = getClaims().get("perms");
-		if(obj != null && obj instanceof String) {
-			return Arrays.asList(StringUtils.tokenizeToStringArray(String.valueOf(obj)));
+		if(obj != null) {
+			if(obj instanceof String) {
+				return Arrays.asList(StringUtils.tokenizeToStringArray(String.valueOf(obj)));
+			}
+			return (List<String>) obj;
 		}
 		return new ArrayList<String>();
 	}
@@ -170,9 +176,12 @@ public class JwtPayload {
 	@SuppressWarnings("unchecked")
 	public Map<String,Object> getProfile() {
 		Object obj = getClaims().get("profile");
-		if(obj != null && obj instanceof String) {
+		if(obj != null ) {
 			try {
-				return JSONObject.parseObject(String.valueOf(obj), Map.class);
+				if(obj instanceof String) {
+					return JSONObject.parseObject(String.valueOf(obj), Map.class);
+				}
+				return (Map<String, Object>) obj;
 			} catch (Exception e) {
 			}
 		}
