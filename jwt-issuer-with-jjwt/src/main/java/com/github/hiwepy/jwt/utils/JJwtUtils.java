@@ -51,9 +51,9 @@ public class JJwtUtils {
 	public static final String CLAIM_KEY_ACCOUNT_NON_EXPIRED = "non_expired";
 
 	/**
-     * Returns a new {@link JwtParserBuilder} instance that can be configured to create an immutable/thread-safe {@link JwtParser).
+     * Returns a new JwtParserBuilder instance that can be configured to create an immutable/thread-safe JwtParserBuilder.
      *
-     * @return a new {@link JwtParser} instance that can be configured create an immutable/thread-safe {@link JwtParser).
+     * @return a new JwtParserBuilder instance that can be configured create an immutable/thread-saf JwtParserBuilder.
      */
     public static JwtParserBuilder parserBuilder() {
         return Classes.newInstance("io.jsonwebtoken.impl.NoExpirationJwtParserBuilder");
