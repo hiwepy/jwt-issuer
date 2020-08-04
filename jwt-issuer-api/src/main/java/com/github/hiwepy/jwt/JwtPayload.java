@@ -38,7 +38,7 @@ public class JwtPayload {
 
 	private String tokenId;// 令牌id
 	private String clientId;// 客户标识（用户名、账号）
-	private String alias;// 客户别名
+	private String clientName; // 客户名称
 	private String issuer;// 签发者(JWT令牌此项有值)
 	private Date issuedAt;// 签发时间
 	private Date expiration;// 过期时间
@@ -69,6 +69,14 @@ public class JwtPayload {
 
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
+	}
+	
+	public String getClientName() {
+		return StringUtils.isEmpty(clientName) ? String.valueOf(getClaims().get("nickname")) : clientName;
+	}
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
 
 	public String getIssuer() {
@@ -143,10 +151,6 @@ public class JwtPayload {
 		return String.valueOf(getClaims().get("faceid"));
 	}
 	
-	public String getAlias() {
-		return StringUtils.isEmpty(alias) ? String.valueOf(getClaims().get("alias")) : alias;
-	}
-
 	public String getRoleid() {
 		return String.valueOf(getClaims().get("roleid"));
 	}
@@ -221,10 +225,6 @@ public class JwtPayload {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	public void setAlias(String alias) {
-		this.alias = alias;
 	}
 	
 	@SuppressWarnings("serial")
