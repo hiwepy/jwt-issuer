@@ -26,6 +26,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.collections4.MapUtils;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.hiwepy.jwt.utils.StringUtils;
 
@@ -72,7 +74,7 @@ public class JwtPayload {
 	}
 	
 	public String getClientName() {
-		return StringUtils.isEmpty(clientName) ? String.valueOf(getClaims().get("nickname")) : clientName;
+		return StringUtils.isEmpty(clientName) ? MapUtils.getString(claims, JwtClaims.UNAME) : clientName;
 	}
 
 	public void setClientName(String clientName) {
@@ -135,32 +137,28 @@ public class JwtPayload {
 		this.host = host;
 	}
 
-	public boolean isRestricted() {
-		return Boolean.parseBoolean(String.valueOf(getClaims().get("restricted")));
-	}
-	
 	public boolean isInitial() {
-		return Boolean.parseBoolean(String.valueOf(claims.get("initial")));
+		return MapUtils.getBoolean(claims, JwtClaims.INITIAL);
 	}
 	
-	public boolean isFace() {
-		return Boolean.parseBoolean(String.valueOf(claims.get("face")));
+	public String getUid() {
+		return MapUtils.getString(claims, JwtClaims.UID);
 	}
 	
-	public String getFaceid() {
-		return String.valueOf(getClaims().get("faceid"));
+	public String getUuid() {
+		return MapUtils.getString(claims, JwtClaims.UUID);
 	}
 	
-	public String getRoleid() {
-		return String.valueOf(getClaims().get("roleid"));
+	public String getRid() {
+		return MapUtils.getString(claims, JwtClaims.RID);
 	}
 	
-	public String getRole() {
-		return String.valueOf(getClaims().get("role"));
+	public String getRkey() {
+		return MapUtils.getString(claims, JwtClaims.RID, JwtClaims.DEFAULT_ROLE);
 	}
 	
 	public List<RolePair> getRoles() {
-		Object obj = getClaims().get("roles");
+		Object obj = MapUtils.getObject(claims, JwtClaims.ROLES);
 		if(obj != null ) {
 			if(obj instanceof String) {
 				return JSONObject.parseArray(String.valueOf(obj), RolePair.class);
@@ -171,7 +169,7 @@ public class JwtPayload {
 	}
 
 	public Set<String> getPerms() {
-		Object obj = getClaims().get("perms");
+		Object obj = MapUtils.getObject(claims, JwtClaims.PERMS);
 		if(obj != null) {
 			if(obj instanceof String) {
 				return Stream.of(StringUtils.tokenizeToStringArray(String.valueOf(obj))).collect(Collectors.toSet());
@@ -182,7 +180,7 @@ public class JwtPayload {
 	}
 	
 	public Map<String,Object> getProfile() {
-		Object obj = getClaims().get("profile");
+		Object obj = MapUtils.getObject(claims, JwtClaims.PROFILE);
 		if(obj != null ) {
 			try {
 				if(obj instanceof String) {
