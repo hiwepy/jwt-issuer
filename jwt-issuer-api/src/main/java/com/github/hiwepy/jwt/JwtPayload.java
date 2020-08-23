@@ -149,6 +149,14 @@ public class JwtPayload {
 		return MapUtils.getString(claims, JwtClaims.UUID);
 	}
 	
+	public String getUkey() {
+		return MapUtils.getString(claims, JwtClaims.UKEY);
+	}
+	
+	public String getUcode() {
+		return MapUtils.getString(claims, JwtClaims.UCODE);
+	}
+	
 	public String getRid() {
 		return MapUtils.getString(claims, JwtClaims.RID);
 	}
