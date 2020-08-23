@@ -80,5 +80,16 @@ public class JwtClaims {
    	 * 用户是否完善信息
    	 */
 	public static final String INITIAL = "initial";
-	
+	/**
+	 * 用户最新位置经度
+	 */
+	public static final String LONGITUDE = "longitude"; 
+	/**
+	 * 用户最新位置纬度
+	 */
+	public static final String LATITUDE = "latitude";
+	/**
+	 * 请求参数签名
+	 */
+	public static final String SIGN = "sign"; 
 }
