@@ -33,22 +33,85 @@ import com.github.hiwepy.jwt.utils.StringUtils;
 
 /**
  * TODO
+ * 
  * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 @SuppressWarnings("unchecked")
 public class JwtPayload {
 
-	private String tokenId;// 令牌id
-	private String clientId;// 客户标识（用户名、账号）
-	private String clientName; // 客户名称
-	private String issuer;// 签发者(JWT令牌此项有值)
-	private Date issuedAt;// 签发时间
-	private Date expiration;// 过期时间
-	private Date notBefore;// not-before 时间
-	private List<String> audience;// 接收方(JWT令牌此项有值)
-	private Map<String, Object> claims;// 访问主张(JWT令牌此项有值)
-	private String host;// 客户地址
-	
+	/**
+	 * 令牌ID
+	 */
+	private String tokenId;
+	/**
+	 * 客户标识（用户名、账号）
+	 */
+	private String clientId;
+	/**
+	 * 客户名称
+	 */
+	private String clientName;
+	/**
+	 * 签发者(JWT令牌此项有值)
+	 */
+	private String issuer;
+	/**
+	 * 签发时间
+	 */
+	private Date issuedAt;
+	/**
+	 * 过期时间
+	 */
+	private Date expiration;
+	/**
+	 * not-before 时间
+	 */
+	private Date notBefore;
+	/**
+	 * 接收方(JWT令牌此项有值)
+	 */
+	private List<String> audience;
+	/**
+	 * 访问主张(JWT令牌此项有值)
+	 */
+	private Map<String, Object> claims;
+	/**
+	 * 客户地址
+	 */
+	private String host;
+	/**
+	 * 用户ID（用户来源表Id）
+	 */
+	private String uid;
+	/**
+	 * 用户UUID（用户唯一ID）
+	 */
+	private String uuid;
+	/**
+	 * 用户Key：用户业务表中的唯一ID
+	 */
+	private String ukey;
+	/**
+	 * 用户Code：用户业务表中的唯一编码
+	 */
+	private String ucode;
+	/**
+	 * 角色ID（角色表Id）
+	 */
+	private String rid;
+	/**
+	 * 角色Key：角色业务表中的唯一ID
+	 */
+	private String rkey;
+	/**
+	 * 角色Code：角色业务表中的唯一编码
+	 */
+	private String rcode;
+	/**
+	 * 用户是否完善信息
+	 */
+	private boolean initial = Boolean.FALSE;
+
 	/**
 	 * 兼容 Spring Security
 	 */
@@ -56,7 +119,7 @@ public class JwtPayload {
 	private boolean accountNonLocked = true;
 	private boolean credentialsNonExpired = true;
 	private boolean enabled = true;
-	
+
 	public String getTokenId() {
 		return tokenId;
 	}
@@ -72,7 +135,7 @@ public class JwtPayload {
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
-	
+
 	public String getClientName() {
 		return StringUtils.isEmpty(clientName) ? MapUtils.getString(claims, JwtClaims.UNAME) : clientName;
 	}
@@ -96,7 +159,7 @@ public class JwtPayload {
 	public void setIssuedAt(Date issuedAt) {
 		this.issuedAt = issuedAt;
 	}
-	
+
 	public Date getExpiration() {
 		return expiration;
 	}
@@ -137,38 +200,74 @@ public class JwtPayload {
 		this.host = host;
 	}
 
-	public boolean isInitial() {
-		return MapUtils.getBoolean(claims, JwtClaims.INITIAL);
-	}
-	
 	public String getUid() {
-		return MapUtils.getString(claims, JwtClaims.UID);
+		return MapUtils.getString(claims, JwtClaims.UID, uid);
 	}
-	
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
 	public String getUuid() {
-		return MapUtils.getString(claims, JwtClaims.UUID);
+		return MapUtils.getString(claims, JwtClaims.UUID, uuid);
 	}
-	
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
 	public String getUkey() {
-		return MapUtils.getString(claims, JwtClaims.UKEY);
+		return MapUtils.getString(claims, JwtClaims.UKEY, ukey);
 	}
-	
+
+	public void setUkey(String ukey) {
+		this.ukey = ukey;
+	}
+
 	public String getUcode() {
-		return MapUtils.getString(claims, JwtClaims.UCODE);
+		return MapUtils.getString(claims, JwtClaims.UCODE, ucode);
 	}
-	
+
+	public void setUcode(String ucode) {
+		this.ucode = ucode;
+	}
+
 	public String getRid() {
-		return MapUtils.getString(claims, JwtClaims.RID);
+		return MapUtils.getString(claims, JwtClaims.RID, rid);
 	}
-	
+
+	public void setRid(String rid) {
+		this.rid = rid;
+	}
+
 	public String getRkey() {
-		return MapUtils.getString(claims, JwtClaims.RID, JwtClaims.DEFAULT_ROLE);
+		return StringUtils.defaultIfBlank(MapUtils.getString(claims, JwtClaims.RID,  rkey), JwtClaims.DEFAULT_ROLE);
+	}
+
+	public void setRkey(String rkey) {
+		this.rkey = rkey;
+	}
+
+	public String getRcode() {
+		return rcode;
+	}
+
+	public void setRcode(String rcode) {
+		this.rcode = rcode;
 	}
 	
+	public boolean isInitial() {
+		return MapUtils.getBoolean(claims, JwtClaims.INITIAL, initial);
+	}
+
+	public void setInitial(boolean initial) {
+		this.initial = initial;
+	}
+
 	public List<RolePair> getRoles() {
 		Object obj = MapUtils.getObject(claims, JwtClaims.ROLES);
-		if(obj != null ) {
-			if(obj instanceof String) {
+		if (obj != null) {
+			if (obj instanceof String) {
 				return JSONObject.parseArray(String.valueOf(obj), RolePair.class);
 			}
 			return (List<RolePair>) obj;
@@ -178,27 +277,27 @@ public class JwtPayload {
 
 	public Set<String> getPerms() {
 		Object obj = MapUtils.getObject(claims, JwtClaims.PERMS);
-		if(obj != null) {
-			if(obj instanceof String) {
+		if (obj != null) {
+			if (obj instanceof String) {
 				return Stream.of(StringUtils.tokenizeToStringArray(String.valueOf(obj))).collect(Collectors.toSet());
 			}
 			return (Set<String>) obj;
 		}
 		return new HashSet<String>();
 	}
-	
-	public Map<String,Object> getProfile() {
+
+	public Map<String, Object> getProfile() {
 		Object obj = MapUtils.getObject(claims, JwtClaims.PROFILE);
-		if(obj != null ) {
+		if (obj != null) {
 			try {
-				if(obj instanceof String) {
+				if (obj instanceof String) {
 					return JSONObject.parseObject(String.valueOf(obj), Map.class);
 				}
 				return (Map<String, Object>) obj;
 			} catch (Exception e) {
 			}
 		}
-		return new HashMap<String,Object>();
+		return new HashMap<String, Object>();
 	}
 
 	public boolean isAccountNonExpired() {
@@ -232,16 +331,16 @@ public class JwtPayload {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 	@SuppressWarnings("serial")
 	public static class RolePair implements Serializable {
 
 		private String id;
 		private String key;
 		private String value;
-		
+
 		public RolePair() {
-			
+
 		}
 
 		public RolePair(String id, String key, String value) {
