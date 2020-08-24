@@ -77,6 +77,10 @@ public class JwtClaims {
 	 */
 	public static final String PROFILE = "profile";
 	/**
+   	 * 用户是否绑定信息
+   	 */
+	public static final String BOUND = "bound";
+	/**
    	 * 用户是否完善信息
    	 */
 	public static final String INITIAL = "initial";
