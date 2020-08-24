@@ -48,10 +48,13 @@ public class JWTTest {
 	public void applyToken1() throws Exception {
 
 		System.out.println("//-----------------------------------------------------------");
-		
+
+		// We need a signing key, so we'll create one just for this example. Usually
+		// the key would be read from your application configuration instead.
 		// Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 		SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 		
+
 		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("roles", "admin,stu");
 		claims.put("perms", "user:del");

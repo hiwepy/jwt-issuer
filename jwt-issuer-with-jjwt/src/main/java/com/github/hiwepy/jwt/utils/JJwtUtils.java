@@ -31,7 +31,10 @@ import com.github.hiwepy.jwt.JwtPayload;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.JwtParserBuilder;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.lang.Classes;
 
 /**
  * 基于JJwt组件的jwt工具对象
@@ -47,6 +50,15 @@ public class JJwtUtils {
 	public static final String CLAIM_KEY_ACCOUNT_NON_LOCKED = "non_locked";
 	public static final String CLAIM_KEY_ACCOUNT_NON_EXPIRED = "non_expired";
 
+	/**
+     * Returns a new JwtParserBuilder instance that can be configured to create an immutable/thread-safe JwtParserBuilder.
+     *
+     * @return a new JwtParserBuilder instance that can be configured create an immutable/thread-saf JwtParserBuilder.
+     */
+    public static JwtParserBuilder parserBuilder() {
+        return Classes.newInstance("io.jsonwebtoken.impl.NoExpirationJwtParserBuilder");
+    }
+    
 	public static JwtBuilder jwtBuilder(String jwtId, String subject, String issuer, String audience, Map<String, Object> claims,
 			long period) {
 
