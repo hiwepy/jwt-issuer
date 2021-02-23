@@ -46,7 +46,7 @@ public class JwtPayload {
 	/**
 	 * 客户标识（用户名、账号）
 	 */
-	private String clientId;
+	private String subject;
 	/**
 	 * 客户名称
 	 */
@@ -132,12 +132,12 @@ public class JwtPayload {
 		this.tokenId = tokenId;
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public String getClientName() {
