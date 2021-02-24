@@ -25,7 +25,6 @@ import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import com.github.hiwepy.jwt.utils.JJwtUtils;
@@ -83,7 +82,7 @@ public class JWTTest {
 		System.out.println("TokenId:" + jwtPlayload.getTokenId());
 		System.out.println("Audience:" + jwtPlayload.getAudience());
 		System.out.println("Issuer:" + jwtPlayload.getIssuer());
-		System.out.println("ClientId:" + jwtPlayload.getClientId());
+		System.out.println("Subject:" + jwtPlayload.getSubject());
 		System.out.println("Expiration:" + jwtPlayload.getExpiration());
 		System.out.println("IssuedAt:" + jwtPlayload.getIssuedAt());
 		System.out.println("NotBefore:" + jwtPlayload.getNotBefore());
@@ -129,7 +128,7 @@ public class JWTTest {
 		System.out.println("TokenId:" + jwtPlayload2.getTokenId());
 		System.out.println("Audience:" + jwtPlayload2.getAudience());
 		System.out.println("Issuer:" + jwtPlayload2.getIssuer());
-		System.out.println("ClientId:" + jwtPlayload2.getClientId());
+		System.out.println("Subject:" + jwtPlayload2.getSubject());
 		System.out.println("Expiration:" + jwtPlayload2.getExpiration());
 		System.out.println("IssuedAt:" + jwtPlayload2.getIssuedAt());
 		System.out.println("NotBefore:" + jwtPlayload2.getNotBefore());

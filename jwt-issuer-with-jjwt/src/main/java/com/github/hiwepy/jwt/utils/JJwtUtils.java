@@ -31,7 +31,6 @@ import com.github.hiwepy.jwt.JwtPayload;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.JwtParserBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.lang.Classes;
@@ -141,7 +140,7 @@ public class JJwtUtils {
 		JwtPayload payload = new JwtPayload();
 		
 		payload.setTokenId(claims.getId());
-		payload.setClientId(claims.getSubject());// 用户名
+		payload.setSubject(claims.getSubject());// 用户名
 		payload.setIssuer(claims.getIssuer());// 签发者
 		payload.setIssuedAt(claims.getIssuedAt());// 签发时间
 		payload.setExpiration(claims.getExpiration()); // 过期时间
@@ -155,7 +154,7 @@ public class JJwtUtils {
 
 	public static Claims parseJWT(Key secretKey, String token) {
 		// 解析jwt串 :其中parseClaimsJws验证jwt字符串失败可能会抛出异常，需要捕获异常
-		Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+		Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
 		return claims;
 	}
 

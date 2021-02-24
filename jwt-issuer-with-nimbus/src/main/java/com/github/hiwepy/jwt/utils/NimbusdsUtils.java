@@ -127,7 +127,7 @@ public class NimbusdsUtils {
 
 		JwtPayload payload = new JwtPayload();
 		payload.setTokenId(jwtClaims.getJWTID());
-		payload.setClientId(jwtClaims.getSubject());// 用户名
+		payload.setSubject(jwtClaims.getSubject());// 用户名
 		payload.setIssuer(jwtClaims.getIssuer());// 签发者
 		payload.setIssuedAt(jwtClaims.getIssueTime());// 签发时间
 		payload.setExpiration(jwtClaims.getExpirationTime()); // 过期时间

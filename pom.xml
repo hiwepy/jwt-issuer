@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.hiwepy</groupId>
 	<artifactId>jwt-issuer</artifactId>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.8-SNAPSHOT</version>
 	<description>JWT Issuer Tools</description>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<url>https://github.com/hiwepy/${project.artifactId}</url>
@@ -377,8 +377,8 @@
 		<commons-lang3.version>3.5</commons-lang3.version>
 		<commons-io.version>2.6</commons-io.version>
 		<commons-collections4.version>4.4</commons-collections4.version>
-		<fastjson.version>1.2.73</fastjson.version>
-		<guava.version>29.0-jre</guava.version>
+		<fastjson.version>1.2.75</fastjson.version>
+		<guava.version>30.0-jre</guava.version>
 		<junit.version>4.12</junit.version>
 		<java.version>1.8</java.version>
 		<jjwt.version>0.11.2</jjwt.version>
@@ -400,7 +400,7 @@
 		<maven-nexus-staging-plugin.version>1.6.8</maven-nexus-staging-plugin.version>
 		<maven-nexus-yuicompressor-plugin.version>1.1.0</maven-nexus-yuicompressor-plugin.version>
 		<maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-		<nimbus-jose-jwt.version>8.15</nimbus-jose-jwt.version>
+		<nimbus-jose-jwt.version>9.7</nimbus-jose-jwt.version>
 		<servlet-api.version>3.0.1</servlet-api.version>
 		<slf4j.version>1.7.26</slf4j.version>
 	</properties>
