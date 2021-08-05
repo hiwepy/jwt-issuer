@@ -245,7 +245,7 @@ public class JwtPayload {
 	}
 
 	public String getRkey() {
-		return StringUtils.defaultIfBlank(MapUtils.getString(claims, JwtClaims.RID,  rkey), JwtClaims.DEFAULT_ROLE);
+		return StringUtils.defaultIfBlank(MapUtils.getString(claims, JwtClaims.RKEY,  rkey), JwtClaims.DEFAULT_ROLE);
 	}
 
 	public void setRkey(String rkey) {
