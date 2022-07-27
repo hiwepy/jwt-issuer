@@ -12,8 +12,18 @@
 ``` xml
 <dependency>
 	<groupId>com.github.hiwepy</groupId>
-	<artifactId>jwt-issuer</artifactId>
-	<version>${project.version}</version>
+	<artifactId>jwt-issuer-api</artifactId>
+	<version>1.0.9.RELEASE</version>
+</dependency>
+<dependency>
+	<groupId>com.github.hiwepy</groupId>
+	<artifactId>jwt-issuer-with-jjwt</artifactId>
+	<version>1.0.9.RELEASE</version>
+</dependency>
+<dependency>
+	<groupId>com.github.hiwepy</groupId>
+	<artifactId>jwt-issuer-with-nimbus</artifactId>
+	<version>1.0.9.RELEASE</version>
 </dependency>
 ```
 
