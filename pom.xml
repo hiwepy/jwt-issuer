@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.hiwepy</groupId>
 	<artifactId>jwt-issuer</artifactId>
-	<version>1.0.9-SNAPSHOT</version>
+	<version>1.0.9.RELEASE</version>
 	<description>JWT Issuer Tools</description>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<url>https://github.com/hiwepy/${project.artifactId}</url>
@@ -369,15 +369,15 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<commons-codec.version>1.11</commons-codec.version>
-		<commons-lang3.version>3.5</commons-lang3.version>
-		<commons-io.version>2.6</commons-io.version>
+		<commons-codec.version>1.15</commons-codec.version>
+		<commons-io.version>2.11.0</commons-io.version>
+		<commons-lang3.version>3.12.0</commons-lang3.version>
 		<commons-collections4.version>4.4</commons-collections4.version>
-		<fastjson.version>1.2.75</fastjson.version>
+		<fastjson.version>2.0.10</fastjson.version>
 		<guava.version>30.0-jre</guava.version>
-		<junit.version>4.12</junit.version>
 		<java.version>1.8</java.version>
 		<jjwt.version>0.11.5</jjwt.version>
+		<junit5.version>5.8.2</junit5.version>
 		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
 		<maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
 		<maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
@@ -403,12 +403,19 @@
 	
 	<dependencyManagement>
 		<dependencies>
-			
-			<!-- https://mvnrepository.com/artifact/junit/junit -->
+
+			<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
 			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-api</artifactId>
+				<version>${junit5.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${junit5.version}</version>
 				<scope>test</scope>
 			</dependency>
 
@@ -498,10 +505,16 @@
 	
 	<dependencies>
 
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.slf4j -->

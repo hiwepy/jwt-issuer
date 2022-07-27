@@ -25,7 +25,6 @@ import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
-import org.junit.Test;
 
 import com.github.hiwepy.jwt.utils.JJwtUtils;
 import com.github.hiwepy.jwt.utils.SecretKeyUtils;
@@ -34,6 +33,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.junit.jupiter.api.Test;
 
 /**
  * TODO
