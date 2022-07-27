@@ -62,7 +62,6 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${maven-compiler-plugin.version}</version>
 					<configuration>
-						<defaultLibBundleDir>lib</defaultLibBundleDir>
 						<source>${java.version}</source>
 						<target>${java.version}</target>
 						<encoding>${project.build.sourceEncoding}</encoding>
@@ -155,9 +154,7 @@
 					<artifactId>maven-source-plugin</artifactId>
 					<version>${maven-source-plugin.version}</version>
 					<configuration>
-						<testFailureIgnore>true</testFailureIgnore>
 						<attach>true</attach>
-						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 					<executions>
 						<execution>
@@ -200,7 +197,6 @@
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>${maven-jar-plugin.version}</version>
 					<configuration>
-						<encoding>${project.build.sourceEncoding}</encoding>
 						<skipIfEmpty>true</skipIfEmpty>
 						<archive>
 							<manifest>
@@ -381,7 +377,7 @@
 		<guava.version>30.0-jre</guava.version>
 		<junit.version>4.12</junit.version>
 		<java.version>1.8</java.version>
-		<jjwt.version>0.11.2</jjwt.version>
+		<jjwt.version>0.11.5</jjwt.version>
 		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
 		<maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
 		<maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
@@ -400,7 +396,7 @@
 		<maven-nexus-staging-plugin.version>1.6.8</maven-nexus-staging-plugin.version>
 		<maven-nexus-yuicompressor-plugin.version>1.1.0</maven-nexus-yuicompressor-plugin.version>
 		<maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-		<nimbus-jose-jwt.version>9.7</nimbus-jose-jwt.version>
+		<nimbus-jose-jwt.version>9.23</nimbus-jose-jwt.version>
 		<servlet-api.version>3.0.1</servlet-api.version>
 		<slf4j.version>1.7.26</slf4j.version>
 	</properties>

@@ -19,7 +19,7 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>com.github.hiwepy</groupId>
 			<artifactId>jwt-issuer-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
