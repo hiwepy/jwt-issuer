@@ -115,6 +115,10 @@ public class JwtPayload {
 	 * 用户是否完善信息
 	 */
 	private boolean initial = Boolean.FALSE;
+	/**
+	 * 用户是否需要多因子验证
+	 */
+	private boolean verify = Boolean.FALSE;
 
 	/**
 	 * 兼容 Spring Security
@@ -276,6 +280,14 @@ public class JwtPayload {
 		this.initial = initial;
 	}
 
+	public void setVerify(boolean verify) {
+		this.verify = verify;
+	}
+
+	public boolean isVerify() {
+		return verify;
+	}
+
 	public List<RolePair> getRoles() {
 		Object obj = MapUtils.getObject(claims, JwtClaims.ROLES);
 		if (obj != null) {
@@ -347,8 +359,21 @@ public class JwtPayload {
 	@SuppressWarnings("serial")
 	public static class RolePair implements Serializable {
 
+		/**
+		 * 角色Id
+		 */
 		private String id;
+		/**
+		 * 角色唯一编码
+		 */
 		private String key;
+		/**
+		 * 角色是否需要多因子验证
+		 */
+		private boolean verify = Boolean.FALSE;
+		/**
+		 * 角色名称
+		 */
 		private String value;
 
 		public RolePair() {
@@ -360,6 +385,14 @@ public class JwtPayload {
 			this.id = id;
 			this.key = key;
 			this.value = value;
+		}
+
+		public RolePair(String id, String key, String value, boolean verify) {
+			super();
+			this.id = id;
+			this.key = key;
+			this.value = value;
+			this.verify = verify;
 		}
 
 		public String getId() {
@@ -384,6 +417,14 @@ public class JwtPayload {
 
 		public void setValue(String value) {
 			this.value = value;
+		}
+
+		public void setVerify(boolean verify) {
+			this.verify = verify;
+		}
+
+		public boolean isVerify() {
+			return verify;
 		}
 
 	}

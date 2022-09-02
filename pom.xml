@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.hiwepy</groupId>
 	<artifactId>jwt-issuer</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.1.0.RELEASE</version>
 	<description>JWT Issuer Tools</description>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<url>https://github.com/hiwepy/${project.artifactId}</url>
@@ -212,8 +212,6 @@
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<version>${maven-javadoc-plugin.version}</version>
 					<configuration>
-						<aggregate>true</aggregate>
-						<argLine>-Dfile.encoding=UTF-8</argLine>
 						<charset>${project.build.sourceEncoding}</charset>
 						<encoding>${project.build.sourceEncoding}</encoding>
 						<docencoding>${project.build.sourceEncoding}</docencoding>
@@ -396,7 +394,7 @@
 		<maven-nexus-staging-plugin.version>1.6.8</maven-nexus-staging-plugin.version>
 		<maven-nexus-yuicompressor-plugin.version>1.1.0</maven-nexus-yuicompressor-plugin.version>
 		<maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-		<nimbus-jose-jwt.version>9.23</nimbus-jose-jwt.version>
+		<nimbus-jose-jwt.version>9.24</nimbus-jose-jwt.version>
 		<servlet-api.version>3.0.1</servlet-api.version>
 		<slf4j.version>1.7.26</slf4j.version>
 	</properties>
