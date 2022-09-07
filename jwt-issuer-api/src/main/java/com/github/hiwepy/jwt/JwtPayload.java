@@ -285,7 +285,7 @@ public class JwtPayload {
 	}
 
 	public boolean isVerify() {
-		return verify;
+		return MapUtils.getBoolean(claims, JwtClaims.VERIFY, verify);
 	}
 
 	public List<RolePair> getRoles() {
