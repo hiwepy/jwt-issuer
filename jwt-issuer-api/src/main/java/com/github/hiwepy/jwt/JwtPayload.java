@@ -26,14 +26,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.alibaba.fastjson2.JSONArray;
 import org.apache.commons.collections4.MapUtils;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.github.hiwepy.jwt.utils.StringUtils;
 
 /**
  * TODO
- * 
+ *
  * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 @SuppressWarnings("unchecked")
@@ -263,9 +264,9 @@ public class JwtPayload {
 	public void setRcode(String rcode) {
 		this.rcode = rcode;
 	}
-	
+
 	public boolean isBound() {
-		return MapUtils.getBoolean(claims, JwtClaims.BOUND, bound); 
+		return MapUtils.getBoolean(claims, JwtClaims.BOUND, bound);
 	}
 
 	public void setBound(boolean bound) {
@@ -292,7 +293,7 @@ public class JwtPayload {
 		Object obj = MapUtils.getObject(claims, JwtClaims.ROLES);
 		if (obj != null) {
 			if (obj instanceof String) {
-				return JSONObject.parseArray(String.valueOf(obj), RolePair.class);
+				return JSONArray.parseArray(String.valueOf(obj), RolePair.class);
 			}
 			return (List<RolePair>) obj;
 		}
