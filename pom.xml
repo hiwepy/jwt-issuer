@@ -371,10 +371,10 @@
 		<commons-io.version>2.16.1</commons-io.version>
 		<commons-lang3.version>3.14.0</commons-lang3.version>
 		<commons-collections4.version>4.5.0-M2</commons-collections4.version>
-		<fastjson2.version>2.0.52</fastjson2.version>
+		<fastjson2.version>2.0.53</fastjson2.version>
 		<guava.version>33.2.1-jre</guava.version>
 		<java.version>1.8</java.version>
-		<jjwt.version>0.11.5</jjwt.version>
+		<jjwt.version>0.12.6</jjwt.version>
 		<junit5.version>5.8.2</junit5.version>
 		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
 		<maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
@@ -394,8 +394,7 @@
 		<maven-nexus-staging-plugin.version>1.6.8</maven-nexus-staging-plugin.version>
 		<maven-nexus-yuicompressor-plugin.version>1.1.0</maven-nexus-yuicompressor-plugin.version>
 		<maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-		<nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
-		<servlet-api.version>3.0.1</servlet-api.version>
+		<nimbus-jose-jwt.version>9.41.1</nimbus-jose-jwt.version>
 		<slf4j.version>1.7.36</slf4j.version>
 	</properties>
 
@@ -428,12 +427,6 @@
 				<artifactId>slf4j-simple</artifactId>
 				<version>${slf4j.version}</version>
 				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>${servlet-api.version}</version>
 			</dependency>
 
 			<dependency>

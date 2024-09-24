@@ -62,7 +62,7 @@ import io.jsonwebtoken.security.SignatureException;
  * https://github.com/jwtk/jjwt
  */
 public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepository<Key> {
-	
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private long allowedClockSkewSeconds = -1;
 	private CompressionCodec compressWith = CompressionCodecs.DEFLATE;
@@ -70,16 +70,16 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
     private CompressionCodecResolver compressionCodecResolver;
     private Clock clock = new JwtClock();
     private static final Map<String, JwtParser> PARSER_CONTEXT = new ConcurrentHashMap<>();
-    
+
 	public JwtParser getJwtParser(SigningKeyResolver signingKeyResolver, boolean checkExpiry) {
-		
+
 		String key = String.format("%s-%s", signingKeyResolver.hashCode() , checkExpiry);
 		JwtParser ret = PARSER_CONTEXT.get(key);
 		if (ret != null) {
 			return ret;
 		}
-		
-		JwtParserBuilder jwtParserBuilder = checkExpiry ? Jwts.parserBuilder() : JJwtUtils.parserBuilder();
+
+		JwtParserBuilder jwtParserBuilder = checkExpiry ? Jwts.parser() : JJwtUtils.parserBuilder();
 		// 时钟
 		jwtParserBuilder.setClock(clock)
 		// 签名Key解析器
@@ -90,20 +90,20 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 		if(null != getCompressionCodecResolver() ) {
 			jwtParserBuilder.setCompressionCodecResolver(getCompressionCodecResolver());
 		}
-		
+
 		ret = jwtParserBuilder.build();
 		PARSER_CONTEXT.put( key, ret);
 		return ret;
 	}
-	
-	
+
+
     public SignedWithSecretResolverJWTRepository() {
     }
-    
+
     public SignedWithSecretResolverJWTRepository(SigningKeyResolver signingKeyResolver) {
     	this.signingKeyResolver = signingKeyResolver;
     }
-    
+
 	/**
 	 * Issue JSON Web Token (JWT)
 	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
@@ -139,10 +139,10 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("roles", roles);
 		claims.put("perms", permissions);
-		
+
 		return this.issueJwt(secretKey, keyId, jwtId, subject, issuer, audience, claims, algorithm, period);
 	}
-	
+
 	/**
 	 * Issue JSON Web Token (JWT)
 	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
@@ -174,7 +174,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	@Override
 	public String issueJwt(Key secretKey, String keyId, String jwtId, String subject, String issuer, String audience,
 			Map<String, Object> claims,	String algorithm, long period) throws JwtException {
-		
+
 		try {
 			JwtBuilder builder = JJwtUtils
 					.jwtBuilder(jwtId, subject, issuer, audience, claims, period)
@@ -196,7 +196,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 				Date expiration = new Date(now.getTime() + period);
 				builder.setExpiration(expiration);
 			}
-					
+
 			return builder.compact();
 		} catch (InvalidKeyException e) {
 			throw new JwtException(e);
@@ -204,7 +204,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			throw new JwtException(e);
 		}
 	}
-	
+
 	/**
 	 * Verify the validity of JWT
 	 * @author 				: <a href="https://github.com/hiwepy">hiwepy</a>
@@ -215,15 +215,15 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	 */
 	@Override
 	public boolean verify(String token, boolean checkExpiry) throws JwtException {
-			
+
 		try {
-			
+
 			// Retrieve / verify the JWT claims according to the app requirements
 			JwtParser jwtParser = this.getJwtParser(signingKeyResolver, checkExpiry);
 
 			// 解密JWT，如果无效则会抛出异常
 			Jws<Claims> jws = jwtParser.parseClaimsJws(token);
-			
+
 			Claims claims = jws.getBody();
 
 			Date issuedAt = claims.getIssuedAt();
@@ -237,7 +237,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 				logger.debug("JWT Expiration:" + expiration);
 				logger.debug("JWT Now:" + now);
 			}
-			
+
 			if(notBefore != null && now.getTime() <= notBefore.getTime()) {
 				throw new NotObtainedJwtException(String.format("JWT was not obtained before this timestamp : [%s].", notBefore));
 			}
@@ -262,7 +262,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 		} catch (IllegalArgumentException e) {
 			throw new IncorrectJwtException(e);
 		}
-		
+
 	}
 
 	/**
@@ -276,12 +276,12 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	@Override
 	public JwtPayload getPlayload(String token, boolean checkExpiry)  throws JwtException {
 		try {
-			
+
 			// Retrieve / verify the JWT claims according to the app requirements
 			JwtParser jwtParser = this.getJwtParser(signingKeyResolver, checkExpiry);
-			
+
 			Jws<Claims> jws = jwtParser.parseClaimsJws(token);
-			
+
 			return JJwtUtils.payload(jws.getBody());
 		} catch (MalformedJwtException e) {
 			throw new IncorrectJwtException(e);
@@ -319,7 +319,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	public void setCompressWith(CompressionCodec compressWith) {
 		this.compressWith = compressWith;
 	}
-	
+
 	public CompressionCodecResolver getCompressionCodecResolver() {
 		return compressionCodecResolver;
 	}
@@ -339,6 +339,6 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	public void setSigningKeyResolver(SigningKeyResolver signingKeyResolver) {
 		this.signingKeyResolver = signingKeyResolver;
 	}
-	
+
 
 }

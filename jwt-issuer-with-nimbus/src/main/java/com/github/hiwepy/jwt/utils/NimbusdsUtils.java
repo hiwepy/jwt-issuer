@@ -17,6 +17,7 @@ package com.github.hiwepy.jwt.utils;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,7 +35,7 @@ public class NimbusdsUtils {
 
 	public static JWTClaimsSet.Builder claimsSet(String jwtId, String subject, String issuer, String audience, Map<String, Object> claims,
 			long period) {
-		
+
 		// Current TimeMillis
 		long currentTimeMillis = System.currentTimeMillis();
 
@@ -76,8 +77,8 @@ public class NimbusdsUtils {
 		}
 		return builder;
 	}
-	
-	
+
+
 	public static JWTClaimsSet.Builder claimsSet(String jwtId, String subject, String issuer, String audience, String roles,
 			String permissions, long period) {
 
@@ -132,9 +133,9 @@ public class NimbusdsUtils {
 		payload.setIssuedAt(jwtClaims.getIssueTime());// 签发时间
 		payload.setExpiration(jwtClaims.getExpirationTime()); // 过期时间
 		payload.setNotBefore(jwtClaims.getNotBeforeTime());
-		payload.setAudience(jwtClaims.getAudience());// 接收方
+		payload.setAudience(new HashSet<>(jwtClaims.getAudience()));// 接收方
 		payload.setClaims(jwtClaims.getClaims()); // 访问主张
-		
+
 		return payload;
 	}
 
