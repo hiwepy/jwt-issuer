@@ -66,7 +66,7 @@ public class SignedWithHamcJWTRepository implements JwtRepository<String> {
 	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public String issueJwt(String signingKey, String jwtId, String subject, String issuer, String audience,
+	public String issueJwt(String signingKey, String jwtId, String subject, String issuer, Set<String> audience,
 			String roles, String permissions, String algorithm, long period)  throws JwtException {
 		
 		Map<String, Object> claims =  new HashMap<String, Object>();
@@ -95,7 +95,7 @@ public class SignedWithHamcJWTRepository implements JwtRepository<String> {
 	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public String issueJwt(String signingKey, String jwtId, String subject, String issuer,  String audience,
+	public String issueJwt(String signingKey, String jwtId, String subject, String issuer,  Set<String> audience,
 			Map<String, Object> claims,	String algorithm, long period) throws JwtException {
 		try {
 			

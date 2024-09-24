@@ -153,7 +153,7 @@ public class NoExpirationJwtParserBuilder implements JwtParserBuilder {
     }
 
     @Override
-    public JwtParserBuilder requireAudience(String audience) {
+    public JwtParserBuilder requireAudience(Set<String> audience) {
         expectedClaims.audience().add(audience).and();
         return this;
     }

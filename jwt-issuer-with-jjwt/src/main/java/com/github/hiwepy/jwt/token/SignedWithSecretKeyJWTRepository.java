@@ -15,43 +15,24 @@
  */
 package com.github.hiwepy.jwt.token;
 
+import com.github.hiwepy.jwt.JwtPayload;
+import com.github.hiwepy.jwt.exception.ExpiredJwtException;
+import com.github.hiwepy.jwt.exception.JwtException;
+import com.github.hiwepy.jwt.exception.*;
+import com.github.hiwepy.jwt.utils.JJwtUtils;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.InvalidKeyException;
+import io.jsonwebtoken.security.SignatureException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.security.Key;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.hiwepy.jwt.JwtPayload;
-import com.github.hiwepy.jwt.exception.ExpiredJwtException;
-import com.github.hiwepy.jwt.exception.IncorrectJwtException;
-import com.github.hiwepy.jwt.exception.InvalidJwtToken;
-import com.github.hiwepy.jwt.exception.JwtException;
-import com.github.hiwepy.jwt.exception.NotObtainedJwtException;
-import com.github.hiwepy.jwt.utils.JJwtUtils;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Clock;
-import io.jsonwebtoken.CompressionCodec;
-import io.jsonwebtoken.CompressionCodecResolver;
-import io.jsonwebtoken.CompressionCodecs;
-import io.jsonwebtoken.InvalidClaimException;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtClock;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.JwtParserBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.MissingClaimException;
-import io.jsonwebtoken.PrematureJwtException;
-import io.jsonwebtoken.RequiredTypeException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.InvalidKeyException;
-import io.jsonwebtoken.security.SignatureException;
 
 /**
  * <b> JSON Web Token (JWT) with signature </b>
@@ -119,7 +100,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public String issueJwt(Key secretKey, String jwtId, String subject, String issuer, String audience,
+	public String issueJwt(Key secretKey, String jwtId, String subject, String issuer, Set<String> audience,
 			String roles, String permissions, String algorithm, long period)  throws JwtException {
 
 		Map<String, Object> claims = new HashMap<String, Object>();
@@ -157,7 +138,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 	 * @throws JwtException When Authentication Exception
 	 */
 	@Override
-	public String issueJwt(Key secretKey, String jwtId, String subject, String issuer, String audience,
+	public String issueJwt(Key secretKey, String jwtId, String subject, String issuer, Set<String> audience,
 			Map<String, Object> claims,	String algorithm, long period) throws JwtException {
 
 		try {

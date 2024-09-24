@@ -33,7 +33,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
  */
 public class NimbusdsUtils {
 
-	public static JWTClaimsSet.Builder claimsSet(String jwtId, String subject, String issuer, String audience, Map<String, Object> claims,
+	public static JWTClaimsSet.Builder claimsSet(String jwtId, String subject, String issuer, Set<String> audience, Map<String, Object> claims,
 			long period) {
 
 		// Current TimeMillis
@@ -79,7 +79,7 @@ public class NimbusdsUtils {
 	}
 
 
-	public static JWTClaimsSet.Builder claimsSet(String jwtId, String subject, String issuer, String audience, String roles,
+	public static JWTClaimsSet.Builder claimsSet(String jwtId, String subject, String issuer, Set<String> audience, String roles,
 			String permissions, long period) {
 
 		// Current TimeMillis

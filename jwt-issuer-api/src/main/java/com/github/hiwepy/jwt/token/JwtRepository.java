@@ -1,6 +1,7 @@
 package com.github.hiwepy.jwt.token;
 
 import java.util.Map;
+import java.util.Set;
 
 import com.github.hiwepy.jwt.JwtPayload;
 import com.github.hiwepy.jwt.exception.JwtException;
@@ -21,7 +22,7 @@ public interface JwtRepository<S>{
 	 * @return JWT令牌
 	 * @throws JwtException Jwt异常
 	 */
-	String issueJwt(S signingKey, String jwtId, String subject, String issuer, String audience,
+	String issueJwt(S signingKey, String jwtId, String subject, String issuer, Set<String> audience,
 			String roles, String permissions, String algorithm, long period) throws JwtException;
 
 	/**
@@ -37,7 +38,7 @@ public interface JwtRepository<S>{
 	 * @return JWT令牌
 	 * @throws JwtException Jwt异常
 	 */
-	String issueJwt(S signingKey, String jwtId, String subject, String issuer, String audience,
+	String issueJwt(S signingKey, String jwtId, String subject, String issuer, Set<String> audience,
 			Map<String, Object> claims, String algorithm, long period) throws JwtException;
 
 	/**
