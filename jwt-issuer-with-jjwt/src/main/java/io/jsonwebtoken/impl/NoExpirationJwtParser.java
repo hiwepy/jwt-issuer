@@ -625,6 +625,7 @@ public class NoExpirationJwtParser extends AbstractParser<Jwt<?, ?>> implements 
 
             // https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.4
             // token MUST NOT be accepted on or after any specified exp time:
+            /**
             Date exp = claims.getExpiration();
             if (exp != null) {
 
@@ -641,7 +642,7 @@ public class NoExpirationJwtParser extends AbstractParser<Jwt<?, ?>> implements 
                             this.allowedClockSkewMillis + " milliseconds.";
                     throw new ExpiredJwtException(header, claims, msg);
                 }
-            }
+            }*/
 
             // https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.5
             // token MUST NOT be accepted before any specified nbf time:

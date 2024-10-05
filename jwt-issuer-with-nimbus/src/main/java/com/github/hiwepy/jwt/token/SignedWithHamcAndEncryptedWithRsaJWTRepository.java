@@ -16,10 +16,7 @@
 package com.github.hiwepy.jwt.token;
 
 import java.text.ParseException;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.github.hiwepy.jwt.JwtPayload;
 import com.github.hiwepy.jwt.exception.IncorrectJwtException;

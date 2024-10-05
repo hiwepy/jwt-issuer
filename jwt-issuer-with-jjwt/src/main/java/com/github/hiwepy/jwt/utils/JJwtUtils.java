@@ -171,8 +171,7 @@ public class JJwtUtils {
 		return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset) && (!isTokenExpired(secretKey, token));
 	}
 
-	public String refreshToken(Key secretKey, String token,
-			long access_token_expiration) {
+	public String refreshToken(Key secretKey, String token, long access_token_expiration) {
 		String refreshedToken;
 		try {
 			final Claims claims = parseJWT(secretKey, token);

@@ -15,17 +15,13 @@
  */
 package com.github.hiwepy.jwt.utils;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import com.github.hiwepy.jwt.JwtPayload;
 import com.nimbusds.jwt.JWTClaimsSet;
+import org.apache.commons.collections4.CollectionUtils;
+
+import java.text.ParseException;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 基于Nimbusds组件的jwt工具对象
@@ -34,7 +30,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 public class NimbusdsUtils {
 
 	public static JWTClaimsSet.Builder claimsSet(String jwtId, String subject, String issuer, Set<String> audience, Map<String, Object> claims,
-			long period) {
+												 long period) {
 
 		// Current TimeMillis
 		long currentTimeMillis = System.currentTimeMillis();
@@ -49,8 +45,8 @@ public class NimbusdsUtils {
 		// 用户名主题
 		builder.subject(subject);
 		// 接收对象
-		if (StringUtils.isNoneBlank(audience)) {
-			builder.audience(Stream.of(StringUtils.tokenizeToStringArray(audience)).collect(Collectors.toList()));
+		if (CollectionUtils.isNotEmpty(audience)) {
+			builder.audience(new ArrayList<>(audience));
 		}
 		// 签发者
 		if (StringUtils.isNoneBlank(issuer)) {
@@ -95,8 +91,8 @@ public class NimbusdsUtils {
 		// 用户名主题
 		builder.subject(subject);
 		// 接收对象
-		if (StringUtils.isNoneBlank(audience)) {
-			builder.audience(Stream.of(StringUtils.tokenizeToStringArray(audience)).collect(Collectors.toList()));
+		if (CollectionUtils.isNotEmpty(audience)) {
+			builder.audience(new ArrayList<>(audience));
 		}
 		// 签发者
 		if (StringUtils.isNoneBlank(issuer)) {
