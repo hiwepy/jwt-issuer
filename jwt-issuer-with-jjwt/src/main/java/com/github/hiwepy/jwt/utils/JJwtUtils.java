@@ -17,11 +17,7 @@ package com.github.hiwepy.jwt.utils;
 
 import java.security.Key;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
@@ -146,7 +142,7 @@ public class JJwtUtils {
 		payload.setExpiration(claims.getExpiration()); // 过期时间
 		payload.setNotBefore(claims.getNotBefore());
 		
-		payload.setAudience(Arrays.asList(claims.getAudience()));// 接收方
+		payload.setAudience(Collections.singleton(claims.getAudience()));// 接收方
 		payload.setClaims(claims); // 访问主张
 		
 		return payload;
@@ -154,8 +150,7 @@ public class JJwtUtils {
 
 	public static Claims parseJWT(Key secretKey, String token) {
 		// 解析jwt串 :其中parseClaimsJws验证jwt字符串失败可能会抛出异常，需要捕获异常
-		Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
-		return claims;
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
 	}
 
 	public String genAccessToken(Key secretKey, String uid, String subject,

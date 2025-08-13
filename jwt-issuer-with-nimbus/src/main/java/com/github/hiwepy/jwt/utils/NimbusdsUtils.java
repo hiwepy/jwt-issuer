@@ -16,9 +16,7 @@
 package com.github.hiwepy.jwt.utils;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -132,7 +130,7 @@ public class NimbusdsUtils {
 		payload.setIssuedAt(jwtClaims.getIssueTime());// 签发时间
 		payload.setExpiration(jwtClaims.getExpirationTime()); // 过期时间
 		payload.setNotBefore(jwtClaims.getNotBeforeTime());
-		payload.setAudience(jwtClaims.getAudience());// 接收方
+		payload.setAudience(new HashSet<>(jwtClaims.getAudience()));// 接收方
 		payload.setClaims(jwtClaims.getClaims()); // 访问主张
 		
 		return payload;

@@ -71,7 +71,7 @@ public class JwtPayload {
 	/**
 	 * 接收方(JWT令牌此项有值)
 	 */
-	private List<String> audience;
+	private Set<String> audience;
 	/**
 	 * 访问主张(JWT令牌此项有值)
 	 */
@@ -185,11 +185,11 @@ public class JwtPayload {
 		this.notBefore = notBefore;
 	}
 
-	public List<String> getAudience() {
+	public Set<String> getAudience() {
 		return audience;
 	}
 
-	public void setAudience(List<String> audience) {
+	public void setAudience(Set<String> audience) {
 		this.audience = audience;
 	}
 
@@ -319,7 +319,7 @@ public class JwtPayload {
 					return JSONObject.parseObject(String.valueOf(obj), Map.class);
 				}
 				return (Map<String, Object>) obj;
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 		}
 		return new HashMap<String, Object>();
@@ -357,7 +357,6 @@ public class JwtPayload {
 		this.enabled = enabled;
 	}
 
-	@SuppressWarnings("serial")
 	public static class RolePair implements Serializable {
 
 		/**
