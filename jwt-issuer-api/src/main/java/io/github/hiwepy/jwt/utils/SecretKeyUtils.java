@@ -26,31 +26,34 @@ import javax.crypto.spec.SecretKeySpec;
 
 
 /**
- * 
- * 秘钥工具类
+ * Cryptographic key utility class providing methods to generate, convert, and manage
+ * secret keys, key pairs, and secure random values for JWT signing and encryption.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 public class SecretKeyUtils {
 
-	/**
-	 * AES算法
-	 * java6支持56位密钥，bouncycastle支持64位
-	 * */
+	/** AES algorithm name */
 	public final static String KEY_AES  = "AES";
-	
+
+	/** Base64 encoding identifier */
 	public final static String KEY_BASE64  = "Base64";
-	
+
+	/** DES algorithm name */
 	public final static String KEY_DES  = "DES";
-	
+
+	/** Triple DES (DESede) algorithm name */
 	public final static String KEY_DESEDE  = "DESede";
-	/**
-	 * RSA对称加密算法
-	 */
+
+	/** RSA asymmetric encryption algorithm name */
 	public final static String KEY_RSA  = "RSA";
-	
+
+	/** ECDSA elliptic curve digital signature algorithm name */
 	public final static String KEY_ECDSA  = "ECDSA";
-	
-	/** 密钥大小 */
+
+	/** Default key size in bits */
 	public static final int KEY_SIZE = 128;
+	/** Default cache size in bytes */
 	public static final int CACHE_SIZE = 1024;
 
 	public static KeyPair genKeyPair(String algorithm) throws GeneralSecurityException {

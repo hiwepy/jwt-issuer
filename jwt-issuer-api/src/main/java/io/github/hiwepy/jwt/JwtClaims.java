@@ -15,89 +15,56 @@
  */
 package io.github.easy4j.jwt;
 
+/**
+ * Constants for standard JWT claim names used in user authentication and authorization.
+ * These claims are typically included in the JWT payload to carry user identity and authorization information.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class JwtClaims {
 
+	/** Default role assigned when no role is specified */
 	public static String DEFAULT_ROLE = "guest";
-	
-	/**
-	 * 用户描述Id
-	 */
+
+	/** User descriptor ID */
 	public static final String ID = "id";
-	/**
-	 * 用户ID（用户来源表Id）
-	 */
+	/** User ID (source table ID) */
 	public static final String UID = "uid";
-	/**
-	 * 用户UUID（用户唯一ID）
-	 */
+	/** User UUID (unique user identifier) */
 	public static final String UUID = "uuid";
-	/**
-	 * 用户名
-	 */
+	/** Username */
 	public static final String UNAME = "uname";
-	/**
-	 * 用户Key：用户业务表中的唯一ID
-	 */
+	/** User key: unique ID in the user business table */
 	public static final String UKEY = "ukey";
-	/**
-	 * 用户Code：用户业务表中的唯一编码
-	 */
+	/** User code: unique code in the user business table */
 	public static final String UCODE = "ucode";
-	
-	/**
-	 * 角色ID（角色表Id）
-	 */
+
+	/** Role ID (role table ID) */
 	public static final String RID = "rid";
-	/**
-	 * 角色Key：角色业务表中的唯一ID
-	 */
+	/** Role key: unique ID in the role business table */
 	public static final String RKEY = "rkey";
-	/**
-	 * 角色Code：角色业务表中的唯一编码
-	 */
+	/** Role code: unique code in the role business table */
 	public static final String RCODE = "rcode";
-	/**
-	 * 用户密码盐：用于密码加解密
-	 */
+	/** User password salt: used for password encryption/decryption */
 	public static final String SALT = "salt";
-	/**
-	 * 用户秘钥：用于用户JWT加解密
-	 */
+	/** User secret key: used for JWT encryption/decryption */
 	public static final String SECRET = "secret";
-	/**
-	 * 用户拥有角色列表
-	 */
+	/** List of roles assigned to the user */
 	public static final String ROLES = "roles";
-	/**
-	 * 用户权限标记列表
-	 */
+	/** List of permission markers for the user */
 	public static final String PERMS = "perms";
-	/**
-	 * 用户数据
-	 */
+	/** User profile data */
 	public static final String PROFILE = "profile";
-	/**
-   	 * 用户是否绑定信息
-   	 */
+	/** Whether the user has bound additional information */
 	public static final String BOUND = "bound";
-	/**
-   	 * 用户是否完善信息
-   	 */
+	/** Whether the user has completed profile information */
 	public static final String INITIAL = "initial";
-	/**
-	 * 用户是否需要多因子验证
-	 */
+	/** Whether the user requires multi-factor authentication */
 	public static final String VERIFY = "verify";
-	/**
-	 * 用户最新位置经度
-	 */
-	public static final String LONGITUDE = "longitude"; 
-	/**
-	 * 用户最新位置纬度
-	 */
+	/** User's latest longitude coordinate */
+	public static final String LONGITUDE = "longitude";
+	/** User's latest latitude coordinate */
 	public static final String LATITUDE = "latitude";
-	/**
-	 * 请求参数签名
-	 */
-	public static final String SIGN = "sign"; 
+	/** Request parameter signature */
+	public static final String SIGN = "sign";
 }

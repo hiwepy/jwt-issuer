@@ -32,16 +32,16 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.easy4j.jwt.utils.StringUtils;
 
 /**
- * TODO
- * 
- * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
+ * Represents the decoded payload of a JWT token, containing standard claims (subject, issuer,
+ * expiration, etc.) and custom claims. Also includes user identity fields for convenience
+ * and compatibility with Spring Security.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 @SuppressWarnings("unchecked")
 public class JwtPayload {
 
-	/**
-	 * 令牌ID
-	 */
+	/** The unique identifier for the JWT token */
 	private String tokenId;
 	/**
 	 * 客户标识（用户名、账号）

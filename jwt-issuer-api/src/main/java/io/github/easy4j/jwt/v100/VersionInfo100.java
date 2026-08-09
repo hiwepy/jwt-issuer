@@ -1,8 +1,10 @@
 package io.github.easy4j.jwt.v100;
 
 /**
- * Version identifier for jwt-issuer-api feature/1.0.x
- * This class is unique to feature/1.0.x branch
+ * Version identifier for jwt-issuer-api feature/1.0.x.
+ * This class is unique to feature/1.0.x branch and provides build metadata.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 public final class VersionInfo100 {
     

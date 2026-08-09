@@ -16,13 +16,21 @@
 package io.github.easy4j.jwt.time;
 
 /**
- * 时间提供者，解决节点时间不同步问题
- * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+ * Time provider interface for obtaining the current time in milliseconds.
+ * Allows customizing time source to handle clock skew across distributed nodes.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 public interface JwtTimeProvider {
 
+	/** Default time provider using System.currentTimeMillis() */
 	public static final JwtTimeProvider DEFAULT_TIME_PROVIDER = new DefaultJwtTimeProvider();
-	
+
+	/**
+	 * Returns the current time in milliseconds since the epoch.
+	 *
+	 * @return current time in milliseconds
+	 */
 	long now();
-	
+
 }

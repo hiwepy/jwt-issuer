@@ -16,26 +16,47 @@
 package io.github.easy4j.jwt.exception;
 
 /**
- * TODO
- * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+ * Exception thrown when a JWT token has expired.
+ * This occurs when the current time is past the token's expiration (exp) claim.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 @SuppressWarnings("serial")
 public class ExpiredJwtException extends JwtException {
-	
+
+	/**
+	 * Constructs a new ExpiredJwtException with no message or cause.
+	 */
 	public ExpiredJwtException() {
 		super();
 	}
 
+	/**
+	 * Constructs a new ExpiredJwtException with the specified message and cause.
+	 *
+	 * @param message the detail message
+	 * @param cause   the underlying cause
+	 */
 	public ExpiredJwtException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	/**
+	 * Constructs a new ExpiredJwtException with the specified message.
+	 *
+	 * @param message the detail message
+	 */
 	public ExpiredJwtException(String message) {
 		super(message);
 	}
 
+	/**
+	 * Constructs a new ExpiredJwtException with the specified cause.
+	 *
+	 * @param cause the underlying cause
+	 */
 	public ExpiredJwtException(Throwable cause) {
 		super(cause);
 	}
-	
+
 }

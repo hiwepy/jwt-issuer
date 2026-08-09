@@ -15,16 +15,28 @@
  */
 package io.github.easy4j.jwt.utils;
 
+/**
+ * String utility class extending Apache Commons StringUtils.
+ * Provides additional string manipulation methods for JWT processing.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class StringUtils extends org.apache.commons.lang3.StringUtils{
 
 	/**
-	 * Any number of these characters are considered delimiters between multiple
-	 * context config paths in a single String value.
+	 * Delimiter characters used to split comma-separated values in JWT claims
+	 * such as roles and permissions.
 	 */
 	public static String CONFIG_LOCATION_DELIMITERS = ",";
-	
+
+	/**
+	 * Tokenizes the given string by splitting on comma delimiters.
+	 *
+	 * @param str the string to tokenize
+	 * @return an array of tokenized strings
+	 */
 	public static String[] tokenizeToStringArray(String str) {
 		return split(str, CONFIG_LOCATION_DELIMITERS);
 	}
-	
+
 }
