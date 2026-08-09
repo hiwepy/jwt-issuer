@@ -29,6 +29,11 @@ import javax.crypto.spec.SecretKeySpec;
  * 
  * 秘钥工具类
  */
+/**
+ * Cryptographic key utility class for JWT signing and encryption.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class SecretKeyUtils {
 
 	/**

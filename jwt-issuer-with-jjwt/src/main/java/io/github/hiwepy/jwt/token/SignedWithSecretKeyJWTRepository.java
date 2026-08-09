@@ -57,6 +57,11 @@ import io.jsonwebtoken.security.SignatureException;
  * <b> JSON Web Token (JWT) with signature </b>
  * https://github.com/jwtk/jjwt
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

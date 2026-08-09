@@ -37,6 +37,11 @@ import com.nimbusds.jwt.JWTClaimsSet;
  * 
  * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */
+/**
+ * JWT implementation class using Nimbus JOSE.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class ExtendedRSASSAVerifier extends RSASSAVerifier {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

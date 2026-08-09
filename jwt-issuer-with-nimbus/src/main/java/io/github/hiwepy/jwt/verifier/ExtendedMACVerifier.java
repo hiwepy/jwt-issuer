@@ -14,6 +14,11 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jose.util.Base64URL;
 import com.nimbusds.jwt.JWTClaimsSet;
 
+/**
+ * JWT implementation class using Nimbus JOSE.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class ExtendedMACVerifier extends MACVerifier {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

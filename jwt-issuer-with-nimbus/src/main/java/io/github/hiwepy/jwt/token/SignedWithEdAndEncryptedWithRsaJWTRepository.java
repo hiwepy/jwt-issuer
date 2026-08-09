@@ -54,6 +54,11 @@ import com.nimbusds.jwt.SignedJWT;
  * <p> https://www.connect2id.com/products/nimbus-jose-jwt/examples/jwt-with-rsa-encryption </p>
  * <p> https://www.connect2id.com/products/nimbus-jose-jwt/examples/signed-and-encrypted-jwt </p>
  */
+/**
+ * JWT implementation class using Nimbus JOSE.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairRepository<OctetKeyPair,RSAKey> {
 
 	private JwtTimeProvider timeProvider = JwtTimeProvider.DEFAULT_TIME_PROVIDER;

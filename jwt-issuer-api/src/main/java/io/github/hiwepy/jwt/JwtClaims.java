@@ -15,6 +15,11 @@
  */
 package io.github.easy4j.jwt;
 
+/**
+ * Constants for standard JWT claim names used in user authentication.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class JwtClaims {
 
 	public static String DEFAULT_ROLE = "guest";

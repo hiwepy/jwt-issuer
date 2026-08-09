@@ -1,6 +1,11 @@
 package io.github.easy4j.jwt.exception;
 
 @SuppressWarnings("serial")
+/**
+ * Exception class for JWT processing errors.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class NotObtainedJwtException extends JwtException {
 	
 	public NotObtainedJwtException() {

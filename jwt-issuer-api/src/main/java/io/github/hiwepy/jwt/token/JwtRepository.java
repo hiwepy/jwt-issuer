@@ -5,6 +5,11 @@ import java.util.Map;
 import io.github.easy4j.jwt.JwtPayload;
 import io.github.easy4j.jwt.exception.JwtException;
 
+/**
+ * Repository interface for JWT operations.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public interface JwtRepository<S>{
 	
 	public abstract String issueJwt(S signingKey, String jwtId, String subject, String issuer, String audience,
