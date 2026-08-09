@@ -26,6 +26,11 @@ import io.jsonwebtoken.io.Decoders;
  * <p>所有签名、加密和格式校验均委托给 JJWT 官方解析器。只有官方解析器在完成这些校验后
  * 抛出 {@link ExpiredJwtException} 时，才恢复其中已经解析完成的 Claims。</p>
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class NoExpirationJwtParser implements JwtParser {
 
     private final JwtParser delegate;

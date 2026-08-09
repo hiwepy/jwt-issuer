@@ -20,6 +20,11 @@ package io.github.easy4j.jwt.exception;
  * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 @SuppressWarnings("serial")
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class ExpiredJwtException extends JwtException {
 	
 	public ExpiredJwtException() {

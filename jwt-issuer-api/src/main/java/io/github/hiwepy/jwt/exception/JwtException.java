@@ -15,6 +15,11 @@
  */
 package io.github.easy4j.jwt.exception;
 
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class JwtException extends RuntimeException {
 
 	/**

@@ -35,6 +35,11 @@ import com.nimbusds.jwt.JWTClaimsSet;
  * TODO
  * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class ExtendedEd25519Verifier extends Ed25519Verifier {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

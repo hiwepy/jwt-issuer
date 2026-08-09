@@ -43,6 +43,11 @@ import com.nimbusds.jwt.SignedJWT;
  * <b> JSON Web Token (JWT) with HMAC signature </b>
  * https://www.connect2id.com/products/nimbus-jose-jwt/examples/jwt-with-hmac
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class SignedWithHamcJWTRepository implements JwtRepository<String> {
 
 	private JwtTimeProvider timeProvider = JwtTimeProvider.DEFAULT_TIME_PROVIDER;

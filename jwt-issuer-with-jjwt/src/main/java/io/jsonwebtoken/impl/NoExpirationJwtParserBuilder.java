@@ -11,6 +11,11 @@ import io.jsonwebtoken.JwtParser;
 /**
  * 创建忽略过期时间、但仍执行签名和令牌结构校验的解析器。
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class NoExpirationJwtParserBuilder extends DefaultJwtParserBuilder {
 
     @Override

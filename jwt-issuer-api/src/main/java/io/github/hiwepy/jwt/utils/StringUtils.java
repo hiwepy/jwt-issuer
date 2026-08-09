@@ -15,6 +15,11 @@
  */
 package io.github.easy4j.jwt.utils;
 
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class StringUtils extends org.apache.commons.lang3.StringUtils{
 
 	/**

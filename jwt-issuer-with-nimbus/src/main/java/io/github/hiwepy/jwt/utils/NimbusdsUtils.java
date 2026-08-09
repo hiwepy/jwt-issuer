@@ -30,6 +30,11 @@ import com.nimbusds.jwt.JWTClaimsSet;
  * 基于Nimbusds组件的jwt工具对象
  * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class NimbusdsUtils {
 
 	public static JWTClaimsSet.Builder claimsSet(String jwtId, String subject, String issuer, String audience, Map<String, Object> claims,

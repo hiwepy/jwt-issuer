@@ -21,6 +21,11 @@ import io.github.easy4j.jwt.time.JwtTimeProvider;
 
 import io.jsonwebtoken.Clock;
 
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class JwtClock implements Clock {
 
 	 private JwtTimeProvider timeProvider = JwtTimeProvider.DEFAULT_TIME_PROVIDER;

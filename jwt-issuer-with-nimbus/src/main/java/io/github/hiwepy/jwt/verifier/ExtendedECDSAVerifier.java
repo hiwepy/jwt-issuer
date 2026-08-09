@@ -36,6 +36,11 @@ import com.nimbusds.jwt.JWTClaimsSet;
  * TODO
  * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class ExtendedECDSAVerifier extends ECDSAVerifier {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

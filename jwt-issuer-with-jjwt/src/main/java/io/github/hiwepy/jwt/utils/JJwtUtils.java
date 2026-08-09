@@ -40,6 +40,11 @@ import io.jsonwebtoken.lang.Classes;
  * 
  * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class JJwtUtils {
 
 	public static final String ROLE_REFRESH_TOKEN = "ROLE_REFRESH_TOKEN";

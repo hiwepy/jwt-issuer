@@ -1,6 +1,11 @@
 package io.github.easy4j.jwt.exception;
 
 @SuppressWarnings("serial")
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class IncorrectJwtException extends JwtException {
 	
 	public IncorrectJwtException() {

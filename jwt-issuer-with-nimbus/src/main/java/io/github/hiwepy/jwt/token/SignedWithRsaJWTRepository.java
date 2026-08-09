@@ -43,6 +43,11 @@ import com.nimbusds.jwt.SignedJWT;
  * <b> JSON Web Token (JWT) with RSA signature </b>
  * https://www.connect2id.com/products/nimbus-jose-jwt/examples/jwt-with-rsa-signature 
  */
+/**
+ * JWT implementation class.
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ */
 public class SignedWithRsaJWTRepository implements JwtRepository<RSAKey> {
 
 	private JwtTimeProvider timeProvider = JwtTimeProvider.DEFAULT_TIME_PROVIDER;
