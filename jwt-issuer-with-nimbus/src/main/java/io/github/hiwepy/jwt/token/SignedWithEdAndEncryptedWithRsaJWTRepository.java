@@ -60,7 +60,7 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 	
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey	: Signing key
 	 * @param secretKey		: Encryption key
 	 * @param jwtId			: Jwt Id
@@ -88,7 +88,7 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 	
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey	: Signing key
 	 * @param secretKey		: Encryption key
 	 * @param jwtId			: Jwt Id
@@ -164,7 +164,7 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 
 	/**
 	 * Verify the validity of JWT
-	 * @author 				: <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey 	: 
 	 * <p>If the jws was signed with a SecretKey, the same SecretKey should be specified on the JwtParser. </p>
 	 * <p>If the jws was signed with a PrivateKey, that key's corresponding PublicKey (not the PrivateKey) should be specified on the JwtParser.</p>
@@ -213,7 +213,7 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 	
 	/**
 	 * Parser JSON Web Token (JWT)
-	 * @author 		：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey 	: 
 	 * <p>If the jws was signed with a SecretKey, the same SecretKey should be specified on the JwtParser. </p>
 	 * <p>If the jws was signed with a PrivateKey, that key's corresponding PublicKey (not the PrivateKey) should be specified on the JwtParser.</p>

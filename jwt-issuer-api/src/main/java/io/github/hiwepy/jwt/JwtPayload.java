@@ -34,7 +34,7 @@ import io.github.easy4j.jwt.utils.StringUtils;
 /**
  * TODO
  * 
- * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 @SuppressWarnings("unchecked")
 public class JwtPayload {
