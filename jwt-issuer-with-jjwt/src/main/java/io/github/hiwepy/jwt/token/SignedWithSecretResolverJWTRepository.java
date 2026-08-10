@@ -106,7 +106,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
     
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param secretKey		: Signing key
 	 * @param keyId			: Key Id
 	 * @param jwtId			: Jwt Id
@@ -145,7 +145,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param secretKey		: Signing key
 	 * @param keyId			: Key Id
 	 * @param jwtId			: Jwt Id
@@ -207,7 +207,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	
 	/**
 	 * Verify the validity of JWT
-	 * @author 				: <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return If Validity
@@ -267,7 +267,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 
 	/**
 	 * Parser JSON Web Token (JWT)
-	 * @author 		：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return JwtPlayload {@link JwtPayload}

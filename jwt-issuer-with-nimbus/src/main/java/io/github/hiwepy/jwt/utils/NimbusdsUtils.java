@@ -27,8 +27,8 @@ import io.github.easy4j.jwt.JwtPayload;
 import com.nimbusds.jwt.JWTClaimsSet;
 
 /**
- * 基于Nimbusds组件的jwt工具对象
- * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
+ * Based onNimbusds组件jwtUtility对象
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 public class NimbusdsUtils {
 
@@ -63,14 +63,14 @@ public class NimbusdsUtils {
 				builder.claim(entry.getKey(), entry.getValue());
 			}
 		}
-		// 默认签发时间
+		// 默认签发间
 		Date now = new Date(currentTimeMillis);
 		builder.issueTime(now);
-		// 默认有效期起始时间
+		// 默认有效期起始间
 		builder.notBeforeTime(now);
-		// Token过期时间
+		// Tokenexpiration间
 		if (period >= 0) {
-			// 有效时间
+			// 有效间
 			Date expiration = new Date(currentTimeMillis + period );
 			builder.expirationTime(expiration);
 		}
@@ -109,14 +109,14 @@ public class NimbusdsUtils {
 		if (StringUtils.isNoneBlank(permissions)) {
 			builder.claim("perms", permissions);
 		}
-		// 默认签发时间
+		// 默认签发间
 		Date now = new Date(currentTimeMillis);
 		builder.issueTime(now);
-		// 默认有效期起始时间
+		// 默认有效期起始间
 		builder.notBeforeTime(now);
-		// Token过期时间
+		// Tokenexpiration间
 		if (period >= 0) {
-			// 有效时间
+			// 有效间
 			Date expiration = new Date(currentTimeMillis + period );
 			builder.expirationTime(expiration);
 		}
@@ -129,8 +129,8 @@ public class NimbusdsUtils {
 		payload.setTokenId(jwtClaims.getJWTID());
 		payload.setSubject(jwtClaims.getSubject());// 用户名
 		payload.setIssuer(jwtClaims.getIssuer());// 签发者
-		payload.setIssuedAt(jwtClaims.getIssueTime());// 签发时间
-		payload.setExpiration(jwtClaims.getExpirationTime()); // 过期时间
+		payload.setIssuedAt(jwtClaims.getIssueTime());// 签发间
+		payload.setExpiration(jwtClaims.getExpirationTime()); // expiration间
 		payload.setNotBefore(jwtClaims.getNotBeforeTime());
 		payload.setAudience(jwtClaims.getAudience());// 接收方
 		payload.setClaims(jwtClaims.getClaims()); // 访问主张

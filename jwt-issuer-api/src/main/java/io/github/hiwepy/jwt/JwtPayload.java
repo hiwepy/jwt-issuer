@@ -52,15 +52,15 @@ public class JwtPayload {
 	 */
 	private String clientName;
 	/**
-	 * 签发者(JWT令牌此项有值)
+	 * Issuer (present in JWT tokens)
 	 */
 	private String issuer;
 	/**
-	 * 签发时间
+	 * Issued-at time
 	 */
 	private Date issuedAt;
 	/**
-	 * 过期时间
+	 * Expiration time
 	 */
 	private Date expiration;
 	/**
@@ -68,11 +68,11 @@ public class JwtPayload {
 	 */
 	private Date notBefore;
 	/**
-	 * 接收方(JWT令牌此项有值)
+	 * Audience (present in JWT tokens)
 	 */
 	private List<String> audience;
 	/**
-	 * 访问主张(JWT令牌此项有值)
+	 * Access claims (present in JWT tokens)
 	 */
 	private Map<String, Object> claims;
 	/**

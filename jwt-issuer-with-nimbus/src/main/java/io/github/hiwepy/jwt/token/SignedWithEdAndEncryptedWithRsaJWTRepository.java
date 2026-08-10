@@ -60,7 +60,7 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 	
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey	: Signing key
 	 * @param secretKey		: Encryption key
 	 * @param jwtId			: Jwt Id
@@ -88,7 +88,7 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 	
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey	: Signing key
 	 * @param secretKey		: Encryption key
 	 * @param jwtId			: Jwt Id
@@ -111,15 +111,15 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 			
 			// Prepare JWT with claims set
 			JWTClaimsSet.Builder builder = NimbusdsUtils.claimsSet(jwtId, subject, issuer, audience, claims, period);
-			// 签发时间
+			// 签发间
 			long currentTimeMillis = this.getTimeProvider().now();
 			Date now = new Date(currentTimeMillis);
 			builder.issueTime(now);
-			// 有效期起始时间
+			// 有效期起始间
 			builder.notBeforeTime(now);
-			// Token过期时间
+			// Tokenexpiration间
 			if (period >= 0) {
-				// 有效时间
+				// 有效间
 				Date expiration = new Date(currentTimeMillis + period );
 				builder.expirationTime(expiration);
 			}
@@ -164,7 +164,7 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 
 	/**
 	 * Verify the validity of JWT
-	 * @author 				: <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey 	: 
 	 * <p>If the jws was signed with a SecretKey, the same SecretKey should be specified on the JwtParser. </p>
 	 * <p>If the jws was signed with a PrivateKey, that key's corresponding PublicKey (not the PrivateKey) should be specified on the JwtParser.</p>
@@ -213,7 +213,7 @@ public class SignedWithEdAndEncryptedWithRsaJWTRepository implements JwtKeyPairR
 	
 	/**
 	 * Parser JSON Web Token (JWT)
-	 * @author 		：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey 	: 
 	 * <p>If the jws was signed with a SecretKey, the same SecretKey should be specified on the JwtParser. </p>
 	 * <p>If the jws was signed with a PrivateKey, that key's corresponding PublicKey (not the PrivateKey) should be specified on the JwtParser.</p>

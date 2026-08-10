@@ -57,25 +57,25 @@ public class SecretKeyUtils {
 	public static final int CACHE_SIZE = 1024;
 
 	public static KeyPair genKeyPair(String algorithm) throws GeneralSecurityException {
-		// 定义密钥长度1024位
+		// 定义Secret key长度1024位
 		return SecretKeyUtils.genKeyPair(algorithm, CACHE_SIZE);
 	}
 
 	public static KeyPair genKeyPair(String algorithm, int keySize) throws GeneralSecurityException {
-		// 通过KeyPairGenerator产生密钥,注意：这里的key是一对钥匙！！
+		// 通过KeyPairGenerator产生Secret key,注意：这里的key是一对钥匙！！
 		return SecretKeyUtils.genKeyPair(null, algorithm, keySize);
 	}
 
 	public static KeyPair genKeyPair(String seed, String algorithm, int keySize) throws GeneralSecurityException {
-		// 产生一个密钥生成器KeyPairGenerator(顾名思义：一对钥匙生成器)
+		// 产生一个Secret keyGenerate器KeyPairGenerator(顾名思义：一对钥匙Generate器)
 		KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(algorithm);
-		// 初始化密钥生成器
+		// InitializeSecret keyGenerate器
 		if (seed != null) {
 			keyPairGen.initialize(keySize, SecretKeyUtils.genSecureRandom(seed));
 		} else {
 			keyPairGen.initialize(keySize);
 		}
-		// 通过KeyPairGenerator产生密钥,注意：这里的key是一对钥匙！！
+		// 通过KeyPairGenerator产生Secret key,注意：这里的key是一对钥匙！！
 		return keyPairGen.generateKeyPair();
 	}
 
@@ -108,54 +108,54 @@ public class SecretKeyUtils {
 	/**
 	 * 
 	 * <p>
-	 * 根据秘钥种子生成随机密钥
+	 * 根据秘钥种子Generate随机Secret key
 	 * </p>
-	 * @param seed 密钥种子
-	 * @param algorithm 生成密匙的算法
+	 * @param seed Secret key种子
+	 * @param algorithm Generate密匙的算法
 	 * @param keySize  密匙长度
-	 * @return 二进制密钥
+	 * @return 二进制Secret key
 	 * @throws GeneralSecurityException {@link GeneralSecurityException}
 	 */
 	public static SecretKey genSecretKey(String seed, String algorithm, int keySize) throws GeneralSecurityException {
 		/*
-		 * 如果要生成密钥，必须使用"真正的随机"数。 例如，在Random类中的常规的随机数发生器，是根据当前的日期和时间来产生随机数的，因此它不够随 机。
-		 * 例如，假设计算机时钟可以精确到1/10秒，那么，每天最多存在864,000个种子。如果攻击者知道发布密钥的日期（通常可以由截止日期推算出 来），
-		 * 那么就可以很容易地生成那一天所有可能的种子。 SecureRandom类产生的随机数，远比由Random类产生的那些数字安全得多。
-		 * 你仍然需要提供一个种子，以便在一个随机点上开始生成数字 序列。 要这样做，最好的方法是从一个诸如白噪声发生器之类的硬件设备那里获取输入。
+		 * 如果要GenerateSecret key，必须使用"真正的随机"数。 例如，在Random类中的常规的随机数发生器，是根据当前的日期和时间来产生随机数的，因此它不够随 机。
+		 * 例如，假设计算机时钟可以精确到1/10秒，那么，每天最多存在864,000个种子。如果攻击者知道发布Secret key的日期（通常可以由截止日期推算出 来），
+		 * 那么就可以很容易地Generate那一天所有可能的种子。 SecureRandom类产生的随机数，远比由Random类产生的那些数字安全得多。
+		 * 你仍然需要提供一个种子，以便在一个随机点上开始Generate数字 序列。 要这样做，最好的方法是从一个诸如白噪声发生器之类的硬件设备那里Get输入。
 		 * 另一个合理的随机输入源是请用户在键盘上进行随心所欲的盲打，但是每次 敲击键盘只为随机种子提供1位或者2位。
 		 * 一旦你在字节数组中收集到这种随机位后，就可以将它传递给setSeed方法或者构造器。
 		 */
-		// 实例化密钥生成器
+		// 实例化Secret keyGenerate器
 		KeyGenerator keygen = KeyGenerator.getInstance(algorithm);
 		if (null != seed) {
-			// 初始化密钥生成器，AES要求密钥长度为128位、192位、256位；DES密匙长度为:56位，IDEA要求密钥长度为128位
+			// InitializeSecret keyGenerate器，AES要求Secret key长度为128位、192位、256位；DES密匙长度为:56位，IDEA要求Secret key长度为128位
 			keygen.init(keySize, SecretKeyUtils.genSecureRandom(seed));
 		} else {
 			keygen.init(keySize);
 		}
-		// 生成密钥
+		// GenerateSecret key
 		return keygen.generateKey();
 	}
 
 	public static SecretKey genSecretKey(String algorithm, int keysize) throws GeneralSecurityException {
-		// 实例化密钥生成器
+		// 实例化Secret keyGenerate器
 		KeyGenerator keygen = KeyGenerator.getInstance(algorithm);
-		// 初始化密钥生成器
+		// InitializeSecret keyGenerate器
 		keygen.init(keysize);
-		// 产生密钥
+		// 产生Secret key
 		return keygen.generateKey();
 	}
 
 	public static SecretKey genSecretKey(String algorithm) throws GeneralSecurityException {
-		// 初始化KeyGenerator
+		// InitializeKeyGenerator
 		KeyGenerator keygen = KeyGenerator.getInstance(algorithm);
-		// 产生密钥
+		// 产生Secret key
 		return keygen.generateKey();
 	}
 
 	public static byte[] genBinarySecretKey(String seed, String algorithm, int keySize)
 			throws GeneralSecurityException {
-		// 获取二进制密钥编码形式
+		// Get二进制Secret key编码形式
 		return SecretKeyUtils.genSecretKey(seed, algorithm, keySize).getEncoded();
 	}
  
@@ -172,12 +172,12 @@ public class SecretKeyUtils {
 	}
 
 	/*
-	 * 加密解密第一步：从一组固定的原始数据（也许是由口令或者随机击键产生的）来生成一个密钥
+	 * 加密解密第一步：从一组固定的原始数据（也许是由口令或者随机击键产生的）来Generate一个Secret key
 	 */
 	public static SecretKey genSecretKey(KeySpec keySpec, String algorithm) throws GeneralSecurityException {
-		// 生成指定秘密密钥算法的 SecretKeyFactory 对象。
+		// Generate指定秘密Secret key算法的 SecretKeyFactory 对象。
 		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(algorithm);
-		// 根据提供的密钥规范（密钥材料）生成 SecretKey 对象,利用密钥工厂把KeySpec转换成一个SecretKey对象
+		// 根据提供的Secret key规范（Secret key材料）Generate SecretKey 对象,利用Secret key工厂把KeySpec转换成一个SecretKey对象
 		return keyFactory.generateSecret(keySpec);
 	}
 
@@ -186,9 +186,9 @@ public class SecretKeyUtils {
 	}
 
 	public static SecretKey genPBEKey(char[] password, String algorithm) throws GeneralSecurityException {
-		// 实例化PBE密钥
+		// 实例化PBESecret key
 		PBEKeySpec keySpec = new PBEKeySpec(password);
-		// 生成密钥
+		// GenerateSecret key
 		return SecretKeyUtils.genSecretKey(keySpec, algorithm);
 	}
 
@@ -208,12 +208,12 @@ public class SecretKeyUtils {
 	}
 
 	public static byte[] genRandomKey(int keysize) {
-		// 生成随机数
+		// Generate随机数
 		return SecretKeyUtils.genRandomKey(null, keysize);
 	}
 
 	public static byte[] genRandomKey(String seed, int keysize) {
-		// 生成随机数
+		// Generate随机数
 		return SecretKeyUtils.genSecureRandom(seed).generateSeed(keysize);
 	}
 
@@ -250,7 +250,7 @@ public class SecretKeyUtils {
 	public static void main(String[] args) throws Exception {
 
 		/*
-		 * //AES要求密钥长度为128位、192位、256位；DES密匙长度为:56位 //生成AES密匙 Key key2 =
+		 * //AES要求Secret key长度为128位、192位、256位；DES密匙长度为:56位 //GenerateAES密匙 Key key2 =
 		 * SecretKeyUtils.genSecretKey(String.KEY_AES, 128); //保存AES密匙
 		 * SecretKeyUtils.writeKey(key2, new FileOutputStream("D:/secret.key"));
 		 */
