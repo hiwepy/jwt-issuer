@@ -82,7 +82,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 		JwtParserBuilder jwtParserBuilder = checkExpiry ? Jwts.parserBuilder() : JJwtUtils.parserBuilder();
 		// 时钟
 		jwtParserBuilder.setClock(clock)
-		// 签名Key
+		// signatureKey
 		.setSigningKey(secretKey)
 		// 允许的时间误差
 		.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());
@@ -97,7 +97,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
     
     /**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param secretKey		: Signing key
 	 * @param jwtId			: Jwt Id
 	 * @param subject		: Jwt Subject
@@ -136,7 +136,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param secretKey		: Signing key
 	 * @param jwtId			: Jwt Id
 	 * @param subject		: Jwt Subject
@@ -170,15 +170,15 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 					.jwtBuilder(jwtId, subject, issuer, audience, claims, period)
 					// 压缩类型
 					.compressWith(getCompressWith())
-					// 设置算法（必须）
+					// 设置algorithm（必须）
 					.signWith(secretKey, SignatureAlgorithm.forName(algorithm));
 			
-			// 签发时间
+			// Issued-at time
 			Date now = this.getClock().now();
 			builder.setIssuedAt(now);
 			// 有效期起始时间
 			//builder.setNotBefore(now);
-			// Token过期时间
+			// TokenExpiration time
 			if (period >= 0) {
 				// 有效时间
 				Date expiration = new Date(now.getTime() + period);
@@ -195,7 +195,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 
 	/**
 	 * Verify the validity of JWT
-	 * @author 				: <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param secretKey 	: 
 	 * <p>If the jws was signed with a SecretKey, the same SecretKey should be specified on the JwtParser. </p>
 	 * <p>If the jws was signed with a PrivateKey, that key's corresponding PublicKey (not the PrivateKey) should be specified on the JwtParser.</p> 
@@ -213,7 +213,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 			// Retrieve / verify the JWT claims according to the app requirements
 			JwtParser jwtParser = this.getJwtParser(secretKey, checkExpiry);
 			 
-			// 解密JWT，如果无效则会抛出异常
+			// decryptionJWT，如果无效则会抛出异常
 			Jws<Claims> jws = jwtParser.parseClaimsJws(token);
 			
 			Claims claims = jws.getBody();
@@ -260,7 +260,7 @@ public class SignedWithSecretKeyJWTRepository implements JwtRepository<Key> {
 
 	/**
 	 * Parser JSON Web Token (JWT)
-	 * @author 		：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param secretKey 	: 
 	 * <p>If the jws was signed with a SecretKey, the same SecretKey should be specified on the JwtParser. </p>
 	 * <p>If the jws was signed with a PrivateKey, that key's corresponding PublicKey (not the PrivateKey) should be specified on the JwtParser.</p> 

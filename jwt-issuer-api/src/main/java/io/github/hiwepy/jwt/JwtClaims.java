@@ -62,11 +62,11 @@ public class JwtClaims {
 	 */
 	public static final String RCODE = "rcode";
 	/**
-	 * 用户密码盐：用于密码加解密
+	 * 用户密码盐：用于密码加decryption
 	 */
 	public static final String SALT = "salt";
 	/**
-	 * 用户秘钥：用于用户JWT加解密
+	 * 用户秘钥：用于用户JWT加decryption
 	 */
 	public static final String SECRET = "secret";
 	/**
@@ -98,7 +98,7 @@ public class JwtClaims {
 	 */
 	public static final String LATITUDE = "latitude";
 	/**
-	 * 请求参数签名
+	 * 请求参数signature
 	 */
 	public static final String SIGN = "sign"; 
 }
