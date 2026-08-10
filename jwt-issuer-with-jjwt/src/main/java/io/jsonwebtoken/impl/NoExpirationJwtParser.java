@@ -21,9 +21,9 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.io.Decoders;
 
 /**
- * 忽略过期时间的 JWT 解析器。
+ * 忽略Expiration time的 JWT 解析器。
  *
- * <p>所有签名、加密和格式校验均委托给 JJWT 官方解析器。只有官方解析器在完成这些校验后
+ * <p>所有signature、encryption和格式校验均委托给 JJWT 官方解析器。只有官方解析器在完成这些校验后
  * 抛出 {@link ExpiredJwtException} 时，才恢复其中已经解析完成的 Claims。</p>
  */
 /**

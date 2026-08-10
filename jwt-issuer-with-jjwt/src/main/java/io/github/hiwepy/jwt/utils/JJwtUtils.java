@@ -38,7 +38,7 @@ import io.jsonwebtoken.lang.Classes;
 /**
  * 基于JJwt组件的jwt工具对象
  * 
- * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 /**
  * JWT implementation class.
@@ -91,12 +91,12 @@ public class JJwtUtils {
 			builder.setIssuer(issuer);
 			builder.claim(Claims.ISSUER, issuer);
 		}
-		// 默认签发时间
+		// 默认Issued-at time
 		Date now = new Date(currentTimeMillis);
 		builder.setIssuedAt(now);
 		// 默认有效期起始时间
 		//builder.setNotBefore(now);
-		// Token过期时间
+		// TokenExpiration time
 		if (period >= 0) {
 			// 有效时间
 			Date expiration = new Date(currentTimeMillis + period);
@@ -147,8 +147,8 @@ public class JJwtUtils {
 		payload.setTokenId(claims.getId());
 		payload.setSubject(claims.getSubject());// 用户名
 		payload.setIssuer(claims.getIssuer());// 签发者
-		payload.setIssuedAt(claims.getIssuedAt());// 签发时间
-		payload.setExpiration(claims.getExpiration()); // 过期时间
+		payload.setIssuedAt(claims.getIssuedAt());// Issued-at time
+		payload.setExpiration(claims.getExpiration()); // Expiration time
 		payload.setNotBefore(claims.getNotBefore());
 		
 		payload.setAudience(new ArrayList<>(claims.getAudience()));// 接收方
@@ -158,7 +158,7 @@ public class JJwtUtils {
 	}
 
 	public static Claims parseJWT(Key secretKey, String token) {
-		// 解析jwt串 :其中parseClaimsJws验证jwt字符串失败可能会抛出异常，需要捕获异常
+		// 解析jwt串 :其中parseClaimsJwsverificationjwt字符串失败可能会抛出异常，需要捕获异常
 		Claims claims = Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
 		return claims;
 	}
@@ -168,7 +168,7 @@ public class JJwtUtils {
 		return jwtBuilder(uid, subject, issuer, audience, claims, access_token_expiration)
 				// 压缩，可选GZIP
 				.compressWith(CompressionCodecs.DEFLATE)
-				// 设置算法（必须）
+				// 设置algorithm（必须）
 				.signWith(secretKey).compact();
 	}
 
@@ -177,7 +177,7 @@ public class JJwtUtils {
 		return jwtBuilder(uid, subject, issuer, audience, claims, refresh_token_expiration)
 				// 压缩，可选GZIP
 				.compressWith(CompressionCodecs.DEFLATE)
-				// 设置算法（必须）
+				// 设置algorithm（必须）
 				.signWith(secretKey).compact();
 	}
 

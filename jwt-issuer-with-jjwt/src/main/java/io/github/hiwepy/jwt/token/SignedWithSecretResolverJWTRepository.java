@@ -87,7 +87,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			JwtParserBuilder jwtParserBuilder = checkExpiry ? Jwts.parser() : JJwtUtils.parserBuilder();
 		// 时钟
 		jwtParserBuilder.setClock(clock)
-		// 签名Key解析器
+		// signatureKey解析器
 		.setSigningKeyResolver(signingKeyResolver)
 		// 允许的时间误差
 		.setAllowedClockSkewSeconds(getAllowedClockSkewSeconds());
@@ -111,7 +111,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
     
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param secretKey		: Signing key
 	 * @param keyId			: Key Id
 	 * @param jwtId			: Jwt Id
@@ -150,7 +150,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param secretKey		: Signing key
 	 * @param keyId			: Key Id
 	 * @param jwtId			: Jwt Id
@@ -183,19 +183,19 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 		try {
 			JwtBuilder builder = JJwtUtils
 					.jwtBuilder(jwtId, subject, issuer, audience, claims, period)
-					// 指定KeyID以便进行验证时，动态获取该ID对应的Key
+					// 指定KeyID以便进行verification时，动态获取该ID对应的Key
 					.setHeaderParam(JwsHeader.KEY_ID, StringUtils.isNoneBlank(keyId) ? keyId : Base64.getEncoder().encodeToString(secretKey.getEncoded()))
 					// 压缩类型
 					.compressWith(getCompressWith())
-					// 设置算法（必须）
+					// 设置algorithm（必须）
 					.signWith(secretKey, SignatureAlgorithm.forName(algorithm));
 
-			// 签发时间
+			// Issued-at time
 			Date now = this.getClock().now();
 			builder.setIssuedAt(now);
 			// 有效期起始时间
 			//builder.setNotBefore(now);
-			// Token过期时间
+			// TokenExpiration time
 			if (period >= 0) {
 				// 有效时间
 				Date expiration = new Date(now.getTime() + period);
@@ -212,7 +212,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 	
 	/**
 	 * Verify the validity of JWT
-	 * @author 				: <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return If Validity
@@ -226,7 +226,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 			// Retrieve / verify the JWT claims according to the app requirements
 			JwtParser jwtParser = this.getJwtParser(signingKeyResolver, checkExpiry);
 
-			// 解密JWT，如果无效则会抛出异常
+			// decryptionJWT，如果无效则会抛出异常
 			Jws<Claims> jws = jwtParser.parseClaimsJws(token);
 			
 			Claims claims = jws.getBody();
@@ -272,7 +272,7 @@ public class SignedWithSecretResolverJWTRepository implements JwtKeyResolverRepo
 
 	/**
 	 * Parser JSON Web Token (JWT)
-	 * @author 		：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param token  		: JSON Web Token (JWT)
 	 * @param checkExpiry 	: If Check validity.
 	 * @return JwtPlayload {@link JwtPayload}

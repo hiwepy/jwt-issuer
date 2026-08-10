@@ -65,7 +65,7 @@ public class SignedWithHamcAndEncryptedWithRsaJWTRepository implements JwtKeyPai
 	
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey	: Signing key
 	 * @param secretKey		: Encryption key
 	 * @param jwtId			: Jwt Id
@@ -97,7 +97,7 @@ public class SignedWithHamcAndEncryptedWithRsaJWTRepository implements JwtKeyPai
 	
 	/**
 	 * Issue JSON Web Token (JWT)
-	 * @author ：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey	: Signing key
 	 * @param secretKey		: Encryption key
 	 * @param jwtId			: Jwt Id
@@ -122,13 +122,13 @@ public class SignedWithHamcAndEncryptedWithRsaJWTRepository implements JwtKeyPai
 			
 			// Prepare JWT with claims set
 			JWTClaimsSet.Builder builder = NimbusdsUtils.claimsSet(jwtId, subject, issuer, audience, claims, period);
-			// 签发时间
+			// Issued-at time
 			long currentTimeMillis = this.getTimeProvider().now();
 			Date now = new Date(currentTimeMillis);
 			builder.issueTime(now);
 			// 有效期起始时间
 			builder.notBeforeTime(now);
-			// Token过期时间
+			// TokenExpiration time
 			if (period >= 0) {
 				// 有效时间
 				Date expiration = new Date(currentTimeMillis + period );
@@ -177,7 +177,7 @@ public class SignedWithHamcAndEncryptedWithRsaJWTRepository implements JwtKeyPai
 	
 	/**
 	 * Verify the validity of JWT
-	 * @author 				: <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey 	: 
 	 * <p>If the jws was signed with a SecretKey, the same SecretKey should be specified on the JwtParser. </p>
 	 * <p>If the jws was signed with a PrivateKey, that key's corresponding PublicKey (not the PrivateKey) should be specified on the JwtParser.</p>
@@ -227,7 +227,7 @@ public class SignedWithHamcAndEncryptedWithRsaJWTRepository implements JwtKeyPai
 	
 	/**
 	 * Parser JSON Web Token (JWT)
-	 * @author 		：<a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @param signingKey 	: 
 	 * <p>If the jws was signed with a SecretKey, the same SecretKey should be specified on the JwtParser. </p>
 	 * <p>If the jws was signed with a PrivateKey, that key's corresponding PublicKey (not the PrivateKey) should be specified on the JwtParser.</p>

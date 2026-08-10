@@ -9,7 +9,7 @@ package io.jsonwebtoken.impl;
 import io.jsonwebtoken.JwtParser;
 
 /**
- * 创建忽略过期时间、但仍执行签名和令牌结构校验的解析器。
+ * 创建忽略Expiration time、但仍执行signature和token结构校验的解析器。
  */
 /**
  * JWT implementation class.

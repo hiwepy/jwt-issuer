@@ -17,7 +17,7 @@ package io.github.easy4j.jwt.time;
 
 /**
  * 时间提供者，解决节点时间不同步问题
- * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 /**
  * Repository interface for JWT operations.

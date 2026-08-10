@@ -35,7 +35,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 /**
  * TODO
  * 
- * @author ： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 /**
  * JWT implementation class.
