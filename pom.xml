@@ -12,11 +12,11 @@
     <packaging>pom</packaging>
 
     
-    <modules>
-        <module>jwt-issuer-api</module>
-        <module>jwt-issuer-with-jjwt</module>
-        <module>jwt-issuer-with-nimbus</module>
-    </modules>
+    <subprojects>
+        <subproject>jwt-issuer-api</subproject>
+        <subproject>jwt-issuer-with-jjwt</subproject>
+        <subproject>jwt-issuer-with-nimbus</subproject>
+    </subprojects>
 
     
     <licenses>
@@ -355,7 +355,6 @@
             </activation>
     <properties>
         <!-- Dependency versions -->
-        <additionalparam>-Xdoclint:none</additionalparam>
         <lombok.version>1.18.46</lombok.version>
     </properties>
 
